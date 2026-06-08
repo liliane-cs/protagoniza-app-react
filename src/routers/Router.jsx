@@ -1,13 +1,26 @@
-import { Route, Routes } from "react-router";
-import { Layout } from "../Layout";
-import { Home } from "../pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router";
 
-export const Router = () => {
+import { Home } from "../pages/Home";
+import Profissionais from "../pages/Profissionais";
+import ProfissionalDetalhe from "../pages/ProfissionalDetalhe";
+import Oportunidades from "../pages/Oportunidades";
+import Cursos from "../pages/Cursos";
+import RedeDeApoio from "../pages/RedeDeApoio";
+import Favoritos from "../pages/Favoritos";
+import { Layout } from "../Layout";
+
+export function Router() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/profissionais" element={<Profissionais />} />
+        <Route path="/profissionais/:id" element={<ProfissionalDetalhe />} />
+        <Route path="/oportunidades" element={<Oportunidades />} />
+        <Route path="/cursos" element={<Cursos />} />
+        <Route path="/apoio" element={<RedeDeApoio />} />
+        <Route path="/favoritos" element={<Favoritos />} />
       </Route>
     </Routes>
   );
-};
+}

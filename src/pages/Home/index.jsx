@@ -7,7 +7,7 @@ export const Home = () => {
       <HeroText>
         <Label>Para mulheres como você</Label>
         <HeroTitle>
-          Conectando o{" "}
+          Conectando o
           <i>
             <br /> Talento Feminino
           </i>

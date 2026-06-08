@@ -12,7 +12,7 @@ export const Header = () => {
         <LinkNav to={"/profissionais"}>Profissionais</LinkNav>
         <LinkNav to={"/oportunidades"}>Oportunidades</LinkNav>
         <LinkNav to={"/cursos"}>Cursos</LinkNav>
-        <LinkNav to={"/rede"}>Rede</LinkNav>
+        <LinkNav to={"/apoio"}>Rede</LinkNav>
       </Nav>
       <Icons>
         <LinkIcon to={"/favoritos"}>
