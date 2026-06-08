@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Profissionais e Apoio
 export const apiProfissionais = axios.create({
-  baseURL: "https://6a263a125447714a6f83f18c.mockapi.io/api/v1",
+  baseURL: "https://6a270383a84f9d39e908301e.mockapi.io/api/v1",
 });
 
 // Oportunidades e Cursos
