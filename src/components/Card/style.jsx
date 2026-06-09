@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     position: relative;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background: var(--fundo-principal);
-    border: 1px solid var (--borda-suave);
+    border: 1px solid var(--borda-suave);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -17,9 +18,11 @@ export const Container = styled.div`
 `;
 
 export const Imagem = styled.img`
-    widht: 100%;
-    height: 300px;
+    width: 100%;
+    height: 408px;
     object-fit: cover;
+    align-self: center;      
+    border-radius: 12px;  
 `;
 
 export const Conteudo = styled.div`
@@ -39,7 +42,7 @@ export const Titulo = styled.h3`
 export const Descricao = styled.p`
     margin: 0;
     font-size: 14px;
-    color: var(--texto secundario);
+    color: var(--texto-secundario);
     line-height: 1.4;
 `;
 
