@@ -84,5 +84,3 @@ export function Profissionais() {
         </div>
     );
 }
-
-export default Profissionais;
