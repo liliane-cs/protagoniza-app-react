@@ -5,7 +5,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Header } from "../../components/Header";
 
-export default function ProfissionalDetalhe() {
+export const ProfissionalDetalhe = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function ProfissionalDetalhe() {
   const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    async function buscarProfissional() {
+    const buscarProfissional = async () => {
       try {
         const resposta = await getProfissionais();
 
@@ -28,7 +28,7 @@ export default function ProfissionalDetalhe() {
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     buscarProfissional();
   }, [id]);
@@ -51,4 +51,4 @@ export default function ProfissionalDetalhe() {
       <img src={profissional.foto} alt={profissional.nome} />
     </>
   );
-}
+};
