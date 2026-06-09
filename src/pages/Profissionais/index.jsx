@@ -4,7 +4,7 @@ import  Card from '../../components/Card/index.jsx';
 import { getProfissionais } from '../../services/protagonizaService.jsx';
 
 
-export function Profissionais() {
+export default function Profissionais() {
     const [profissionais, setProfissionais] = useState([]);
     const [areaFiltro, setAreaFiltro] = useState('Todas');
     const [loading, setLoading] = useState(true);
