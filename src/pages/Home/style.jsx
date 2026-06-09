@@ -79,3 +79,25 @@ export const Imagem = styled.img`
     width: 50%;
   }
 `;
+export const Button = styled.button`
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  font-size: 16px;
+  color: var(--rosa-medio);
+  cursor: pointer;
+`;
+export const Input = styled.input`
+  border-radius: 10px;
+  border: 1px solid var(--rosa-medio);
+  padding: 8px 10px;
+  margin: 0 10px;
+`;
+export const Quote = styled.p`
+  background: var(--rosa-claro);
+  border-radius: 10px;
+  border: 1px solid var(--borda-suave);
+  box-shadow: 1px 0 10px var(--borda-suave);
+  padding: 8px 10px;
+  margin: 20px 0;
+`;
