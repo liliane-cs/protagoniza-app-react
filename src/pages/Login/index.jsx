@@ -5,13 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { apiProfissionais } from "../../services/api/Api";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  async function handleLogin() {
+  async function fazerLogin() {
     if (!email || !senha) {
       toast.error("Preencha todos os campos!");
       return;
@@ -46,25 +47,41 @@ export default function Login() {
   }
 
   return (
-    <>
-      <ToastContainer />
-      <h1>Login</h1>
+  <>
+    <ToastContainer />
+    <h1>Login</h1>
+    <p>Que bom te ver de novo!</p>
+    <p>Faça login para acessar sua conta e conectar-se a oportunidades incríveis.</p>
 
-      <Input
-        type="email"
-        placeholder="seu@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+    <label>E-mail</label>
+    <Input
+      type="email"
+      placeholder="seu@email.com"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
 
-      <Input
-        type="password"
-        placeholder="Digite sua senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-      />
+    <label>Senha</label>
+    <Input
+      type="password"
+      placeholder="Digite sua senha"
+      value={senha}
+      onChange={(e) => setSenha(e.target.value)}
+    />
 
-      <Button onClick={handleLogin}>Entrar</Button>
-    </>
-  );
+    <Link to="#">Esqueci minha senha</Link>
+
+    <Button onClick={fazerLogin}>Entrar</Button>
+
+    <p>ou continue com</p>
+
+    <button>G Continuar com Google</button>
+    <button>in Continuar com LinkedIn</button>
+
+    <p>Ainda não tem uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
+
+    <Link to="/">← Voltar para a home</Link>
+  </>
+);
 }
+
