@@ -1,13 +1,21 @@
 import axios from "axios";
 
 
-const baseUrlProfissionais = import.meta.env.VITE_API_PROFISSIONAIS || "https://6a2455f8420469ff067afedb.mockapi.io/api/v1";
-const baseUrlCursos = import.meta.env.VITE_API_CURSOS || "https://6a2450f1420469ff067afb7c.mockapi.io/api/v1";
-const baseUrlLivros = import.meta.env.VITE_API_LIVROS || "https://openlibrary.org"; // Fallback para a API de livros se necessário
-
-export const apiProfissionais = axios.create({
-  baseURL: `${baseUrlProfissionais}`,
-});
+export const getProfissionais = async (config = {}) => {
+    try {
+        const response = await apiProfissionais.get("/profissionais", config);
+        const dados = Array.isArray(response.data)
+            ? response.data
+            : (response.data.profissionais || []);
+        return { dados, erro: null, cancelado: false };
+    } catch (error) {
+        if (error.name === 'CanceledError' || error.name === 'AbortError') {
+            return { dados: [], erro: null, cancelado: true };
+        }
+        console.error('Erro ao buscar profissionais:', error);
+        return { dados: [], erro: 'Ocorreu um erro ao carregar as profissionais.', cancelado: false };
+    }
+};
 
 export const apiCursos = axios.create({
   baseURL: `${baseUrlCursos}`,

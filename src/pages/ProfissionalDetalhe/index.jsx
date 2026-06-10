@@ -15,32 +15,32 @@ export const ProfissionalDetalhe = () => {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
-  useEffect(() => {
+ useEffect(() => {
     async function carregarProfissional() {
-      const response = await getProfissionais();
+        const { dados, erro, cancelado } = await getProfissionais();
 
-      if (response.status !== 200) {
-        setErro(true);
+        if (cancelado || erro) {
+            setErro(true);
+            setLoading(false);
+            return;
+        }
+
+        const profissionalEncontrado = dados.find(
+            (prof) => String(prof.id) === String(id)
+        );
+
+        if (!profissionalEncontrado) {
+            setErro(true);
+            setLoading(false);
+            return;
+        }
+
+        setProfissional(profissionalEncontrado);
         setLoading(false);
-        return;
-      }
-
-      const profissionalEncontrada = response.data.find(
-        (prof) => String(prof.id) === String(id),
-      );
-
-      if (!profissionalEncontrada) {
-        setErro(true);
-        setLoading(false);
-        return;
-      }
-
-      setProfissional(profissionalEncontrada);
-      setLoading(false);
     }
 
     carregarProfissional();
-  }, [id]);
+}, [id]);
   if (loading) {
     return <Loading />;
   }
