@@ -47,12 +47,12 @@ export const LinkNav = styled(NavLink)`
   font-weight: 700;
   font-size: 12px;
   margin: 0 8px;
-  padding-bottom: 5px;
 
   &.active {
     font-size: 13px;
     border-bottom: 2px solid var(--rosa-escuro);
     color: var(--rosa-escuro);
+    padding-bottom: 5px;
   }
 
   &:hover {

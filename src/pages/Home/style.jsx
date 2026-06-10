@@ -98,4 +98,5 @@ export const Input = styled.input`
   padding: 8px 10px;
   margin: 0 10px;
   background: transparent;
+  color: var(--texto);
 `;

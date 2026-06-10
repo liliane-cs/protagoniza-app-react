@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { apiCursos } from "../../services/api/Api";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-import Card from "../../components/Card";
-import { Container, Voltar } from "./style";
 
 export default function OportunidadeDetalhe() {
   const { id } = useParams();
@@ -17,11 +15,15 @@ export default function OportunidadeDetalhe() {
   useEffect(() => {
     async function buscarOportunidade() {
       try {
-        console.log("Buscando oportunidade com id:", id); 
-        const resposta = await apiCursos.get(`/oportunidades/${id}`);
-        console.log("Resposta da API:", resposta.data); 
+        const resposta = await apiCursos.get("/oportunidades");
+
+        const oportunidadeEncontrada = resposta.data.find(
+          (item) => String(item.id) === String(id)
+        );
+
+        setOportunidade(oportunidadeEncontrada);
       } catch (error) {
-        console.error("Erro ao buscar oportunidade:", error); 
+        console.error("Erro ao buscar oportunidade:", error);
         setErro(true);
       } finally {
         setLoading(false);
@@ -32,23 +34,27 @@ export default function OportunidadeDetalhe() {
   }, [id]);
 
   if (loading) return <Loading />;
-  if (erro) return <ErrorMessage mensagem="Não foi possível carregar a oportunidade." />;
-  if (!oportunidade) return <ErrorMessage mensagem="Oportunidade não encontrada." />;
+  if (erro) return <ErrorMessage />;
+  if (!oportunidade)
+    return <ErrorMessage mensagem="Oportunidade não encontrada" />;
 
   return (
-    <Container>
-      <Voltar onClick={() => navigate("/oportunidades")}>← Voltar</Voltar>
+    <>
+      <button onClick={() => navigate("/oportunidades")}>
+        ← Voltar para oportunidades
+      </button>
 
-      <Card
-        titulo={oportunidade.titulo || oportunidade.name}
-        descricao={oportunidade.descricao || oportunidade.area}
-        imagem={oportunidade.imagem}
+       <h1>{oportunidade.titulo}</h1>
+      <p><strong>Área:</strong> {oportunidade.area}</p>
+      <p><strong>Empresa:</strong> {oportunidade.empresa}</p>
+      <p><strong>Tipo:</strong> {oportunidade.tipo}</p>
+      <p><strong>Local:</strong> {oportunidade.local}</p>
+      <p>{oportunidade.descricao}</p>
+      <img
+        src={oportunidade.imagem}
+        alt={oportunidade.titulo}
+        style={{ maxWidth: "400px", borderRadius: "8px", marginTop: "20px" }}
       />
-
-      <p>{oportunidade.area}</p>
-      <p>{oportunidade.empresa}</p>
-      <p>{oportunidade.tipo}</p>
-      <p>{oportunidade.local}</p>
-    </Container>
+    </>
   );
 }
