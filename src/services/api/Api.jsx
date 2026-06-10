@@ -7,5 +7,5 @@ export const apiProfissionais = axios.create({
 
 // Oportunidades e Cursos
 export const apiCursos = axios.create({
-  baseURL: "https://6a260b975447714a6f83d147.mockapi.io/api/v1",
+  baseURL: "https://6a2450f1420469ff067afb7c.mockapi.io/api/v1"
 });

@@ -3,8 +3,8 @@ import { apiCursos } from "../../services/api/Api.jsx";
 import Loading from "../../components/Loading/index.jsx";
 import ErrorMessage from "../../components/ErrorMessage/index.jsx";
 import Card from "../../components/Card/index.jsx";
-import {ListaCursos} from "./style.jsx";
-import { Titulo} from "./style.jsx";
+import {ListaCursos, Titulo} from "./style.jsx";
+import { toast } from "react-toastify";
 
 export default function Cursos() {
   const [cursos, setCursos] = useState([]);
@@ -20,6 +20,7 @@ export default function Cursos() {
         setCursos(resposta.data);
       } catch (e) {
         setErro(true);
+        toast.error("Não foi possível carregar os cursos.")
       } finally {
         setCarregando(false);
       }
