@@ -15,6 +15,8 @@ import { ThemeContext } from "../../context/ThemeContext";
 
 export const Header = () => {
   const { tema, alternarTema } = useContext(ThemeContext);
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  const rotaAccount = usuarioLogado ? "/meu-perfil" : "/login";
   return (
     <HeaderWrapper>
       <Link to={"/"} style={{ textDecoration: "none" }}>
@@ -34,7 +36,7 @@ export const Header = () => {
         <LinkIcon to={"/favoritos"}>
           <FaRegHeart />
         </LinkIcon>
-        <LinkIcon to={"/login"}>
+        <LinkIcon to={rotaAccount}>
           <MdOutlineAccountCircle />
         </LinkIcon>
       </div>
