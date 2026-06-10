@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { apiCursos } from "../../services/api/Api";
+import { getOportunidades } from "../../services/protagonizaService";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card";
@@ -15,7 +15,7 @@ export default function Oportunidades() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await apiCursos.get("/oportunidades");
+        const response = await getOportunidades();
         setOportunidades(response.data);
       } catch (err) {
         setError("Erro ao carregar oportunidades");
@@ -28,7 +28,7 @@ export default function Oportunidades() {
   }, []);
 
   const oportunidadesFiltradas = oportunidades.filter((item) =>
-    item.titulo?.toLowerCase().includes(busca.toLowerCase()),
+    item.titulo?.toLowerCase().includes(busca.toLowerCase())
   );
 
   if (loading) return <Loading />;
