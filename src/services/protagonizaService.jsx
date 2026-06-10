@@ -1,6 +1,7 @@
 import { apiProfissionais, apiFrases } from "./api/Api";
 
-// PROFISSIONAIS E CRUD FEITO EM CADASTRO
+// PROFISSIONAIS (CRUD)
+
 export const getProfissionais = async () => {
   try {
     const resposta = await apiProfissionais.get("/profissionais");
@@ -12,16 +13,27 @@ export const getProfissionais = async () => {
 
 export const cadastrarProfissional = async (data) => {
   try {
-    const resposta = await apiProfissionais.post("/profissionais", data);
+    const resposta = await apiProfissionais.post(
+      "/profissionais",
+      data
+    );
+
     return resposta;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const editarProfissional = async (id, data) => {
+export const editarProfissional = async (
+  id,
+  data
+) => {
   try {
-    const resposta = await apiProfissionais.put(`/profissionais/${id}`, data);
+    const resposta = await apiProfissionais.put(
+      `/profissionais/${id}`,
+      data
+    );
+
     return resposta;
   } catch (error) {
     throw new Error(error);
@@ -30,12 +42,16 @@ export const editarProfissional = async (id, data) => {
 
 export const deletarProfissional = async (id) => {
   try {
-    const resposta = await apiProfissionais.delete(`/profissionais/${id}`);
+    const resposta = await apiProfissionais.delete(
+      `/profissionais/${id}`
+    );
+
     return resposta;
   } catch (error) {
     throw new Error(error);
   }
 };
+
 
 // API DE FRASES DA HOME
 export const getFrases = async () => {
