@@ -1,8 +1,8 @@
 import {Container, Imagem, Conteudo, Titulo, Descricao, BotaoFavoritar} from "./style";
 
-function Card({ titulo, descricao, imagem, favoritado, aoFavoritar }) {
+function Card({ titulo, descricao, imagem, favoritado, aoFavoritar , onClick  }) {
     return (
-        <Container>
+        <Container onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
 
             {imagem && <Imagem src={imagem} alt={titulo} />}
 
