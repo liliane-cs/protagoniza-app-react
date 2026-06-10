@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
 
 import {
   getProfissionais,
@@ -21,6 +23,7 @@ export const Cadastro = () => {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [erro, setErro] = useState(false);
 
   async function cadastrar() {
     if (!nome || !email || !area || !cidade || !senha || !confirmarSenha) {
@@ -47,15 +50,15 @@ export const Cadastro = () => {
 
     setIsLoading(true);
 
-    const response = await getProfissionais();
+    const responseProfissionais = await getProfissionais();
 
-    if (response.status !== 200) {
-      toast.error("Erro ao carregar profissionais!");
+    if (responseProfissionais.status !== 200) {
+      setErro(true);
       setIsLoading(false);
       return;
     }
 
-    const emailJaCadastrado = response.data.find(
+    const emailJaCadastrado = responseProfissionais.data.find(
       (prof) => prof.email === email,
     );
 
@@ -65,7 +68,7 @@ export const Cadastro = () => {
       return;
     }
 
-    const cadastro = await cadastrarProfissional({
+    const responseCadastro = await cadastrarProfissional({
       nome,
       email,
       area,
@@ -73,17 +76,27 @@ export const Cadastro = () => {
       senha,
     });
 
-    if (cadastro.status !== 201 && cadastro.status !== 200) {
-      toast.error("Erro ao realizar cadastro!");
+    if (responseCadastro.status !== 201) {
+      setErro(true);
       setIsLoading(false);
       return;
     }
 
     toast.success("Cadastro realizado com sucesso!");
 
-    setIsLoading(false);
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
 
-    navigate("/login");
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (erro) {
+    return <ErrorMessage />;
   }
 
   return (
@@ -146,8 +159,6 @@ export const Cadastro = () => {
         valorDoCampo={confirmarSenha}
         aoMudar={(e) => setConfirmarSenha(e.target.value)}
       />
-
-      {isLoading && <span>Carregando...</span>}
 
       <Button onClick={cadastrar}>Começar minha jornada de sucesso</Button>
     </>

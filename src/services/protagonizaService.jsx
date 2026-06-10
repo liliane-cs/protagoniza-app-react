@@ -1,46 +1,55 @@
-import { apiProfissionais, apiFrases } from "./api/Api";
+import { apiProfissionais } from "./api/Api";
 
-// PROFISSIONAIS (CRUD)
+// LISTAR
 
-export const getProfissionais = async () => {
+export const getProfissionais = async (config = {}) => {
   try {
-    const resposta = await apiProfissionais.get("/profissionais");
-    return resposta;
+    const response = await apiProfissionais.get("/profissionais", config);
+
+    return response;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
-export const cadastrarProfissional = async (data) => {
-  try {
-    const resposta = await apiProfissionais.post("/profissionais", data);
+// CADASTRAR
 
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const editarProfissional = async (id, data) => {
+export const cadastrarProfissional = async (novoProfissional) => {
   try {
-    const resposta = await apiProfissionais.put(
-      `/profissionais/${String(id)}`,
-      data,
+    const response = await apiProfissionais.post(
+      "/profissionais",
+      novoProfissional,
     );
-    return resposta;
+
+    return response;
   } catch (error) {
-    return { status: 500 };
+    throw error;
   }
 };
+
+// EDITAR
+
+export const editarProfissional = async (id, dadosAtualizados) => {
+  try {
+    const response = await apiProfissionais.put(
+      `/profissionais/${id}`,
+      dadosAtualizados,
+    );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// EXCLUIR
 
 export const deletarProfissional = async (id) => {
   try {
-    const resposta = await apiProfissionais.delete(
-      `/profissionais/${String(id)}`,
-    );
-    return resposta;
+    const response = await apiProfissionais.delete(`/profissionais/${id}`);
+
+    return response;
   } catch (error) {
-    return { status: 500 };
+    throw error;
   }
 };
-

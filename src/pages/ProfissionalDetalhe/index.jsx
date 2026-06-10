@@ -15,27 +15,32 @@ export const ProfissionalDetalhe = () => {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
-  async function carregarProfissional() {
-    const response = await getProfissionais();
+  useEffect(() => {
+    async function carregarProfissional() {
+      const response = await getProfissionais();
 
-    if (response.status !== 200) {
-      setErro(true);
+      if (response.status !== 200) {
+        setErro(true);
+        setLoading(false);
+        return;
+      }
+
+      const profissionalEncontrada = response.data.find(
+        (prof) => String(prof.id) === String(id),
+      );
+
+      if (!profissionalEncontrada) {
+        setErro(true);
+        setLoading(false);
+        return;
+      }
+
+      setProfissional(profissionalEncontrada);
       setLoading(false);
-      return;
     }
 
-    const profissionalEncontrada = response.data.find(
-      (prof) => String(prof.id) === String(id)
-    );
-
-    setProfissional(profissionalEncontrada);
-    setLoading(false);
-  }
-
-  useEffect(() => {
     carregarProfissional();
   }, [id]);
-
   if (loading) {
     return <Loading />;
   }
@@ -64,10 +69,7 @@ export const ProfissionalDetalhe = () => {
 
       <p>{profissional.contato}</p>
 
-      <img
-        src={profissional.foto}
-        alt={profissional.nome}
-      />
+      <img src={profissional.foto} alt={profissional.nome} />
     </>
   );
 };

@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
 
 import { getProfissionais } from "../../services/protagonizaService";
 
@@ -14,6 +16,7 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [erro, setErro] = useState(false);
 
   async function fazerLogin() {
     if (!email || !senha) {
@@ -38,7 +41,7 @@ export const Login = () => {
     const response = await getProfissionais();
 
     if (response.status !== 200) {
-      toast.error("Erro ao conectar com o servidor!");
+      setErro(true);
       setIsLoading(false);
       return;
     }
@@ -58,6 +61,14 @@ export const Login = () => {
     setIsLoading(false);
 
     navigate("/profissionais");
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (erro) {
+    return <ErrorMessage />;
   }
 
   return (
@@ -85,8 +96,6 @@ export const Login = () => {
       />
 
       <Link to="#">Esqueci minha senha</Link>
-
-      {isLoading && <span>Carregando...</span>}
 
       <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
 
