@@ -8,7 +8,7 @@ import Cursos from "../pages/Cursos";
 import RedeDeApoio from "../pages/RedeDeApoio";
 import Favoritos from "../pages/Favoritos";
 import { Login } from "../pages/Login";
-import Cadastro from "../pages/Cadastro";
+import { Cadastro } from "../pages/Cadastro";
 import { Layout } from "../Layout";
 
 export function Router() {

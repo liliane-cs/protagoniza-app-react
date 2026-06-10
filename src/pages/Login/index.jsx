@@ -48,14 +48,13 @@ export const Login = () => {
   return (
     <>
       <ToastContainer />
-      <h1>Login</h1>
-      <p>Que bom te ver de novo!</p>
-      <p>Faça login para acessar sua conta e conectar-se a oportunidades incríveis.</p>
+      <h1>Faça seu login e protagonize!</h1>
+      <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
 
       <label>E-mail</label>
       <Input
         type="email"
-        placeholder="seu@email.com"
+        placeholder="Digite seu e-mail, diva!"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -63,23 +62,23 @@ export const Login = () => {
       <label>Senha</label>
       <Input
         type="password"
-        placeholder="Digite sua senha"
+        placeholder="Sua senha de protagonista"
         value={senha}
         onChange={(e) => setSenha(e.target.value)}
       />
 
       <Link to="#">Esqueci minha senha</Link>
 
-      <Button onClick={fazerLogin}>Entrar</Button>
+      <Button onClick={fazerLogin}>Quero entrar e protagonizar</Button>
 
       <p>ou continue com</p>
 
       <button>G Continuar com Google</button>
       <button>in Continuar com LinkedIn</button>
 
-      <p>Ainda não tem uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
+      <p>Ainda não faz parte dessa rede de mulheres incríveis? <Link to="/cadastro">Cadastre-se agora</Link></p>
 
-      <Link to="/">← Voltar para a home</Link>
+      <Link to="/">← Voltar para nossa casa </Link>
     </>
   );
 };
