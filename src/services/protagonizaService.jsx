@@ -1,6 +1,5 @@
-import { apiProfissionais, apiLivros } from "./api/Api";
+import axios from "axios";
 
-// LISTAR
 
 export const getProfissionais = async (config = {}) => {
     try {
@@ -18,56 +17,72 @@ export const getProfissionais = async (config = {}) => {
     }
 };
 
-// CADASTRAR
+export const apiCursos = axios.create({
+  baseURL: `${baseUrlCursos}`,
+});
 
+export const apiLivros = axios.create({
+  baseURL: `${baseUrlLivros}`,
+});
+
+export const apiFrases = axios.create({
+  baseURL: "https://6a2455f8420469ff067afedb.mockapi.io/api/v1", 
+});
+
+// LISTAR PROFISSIONAIS
+export const getProfissionais = async (config = {}) => {
+  return await apiProfissionais.get("/profissionais", config);
+};
+
+// CADASTRAR PROFISSIONAL
 export const cadastrarProfissional = async (novoProfissional) => {
-  try {
-    const response = await apiProfissionais.post(
-      "/profissionais",
-      novoProfissional,
-    );
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
+  return await apiProfissionais.post("/profissionais", novoProfissional);
 };
 
-// EDITAR
-
+// EDITAR PROFISSIONAL
 export const editarProfissional = async (id, dadosAtualizados) => {
-  try {
-    const response = await apiProfissionais.put(
-      `/profissionais/${id}`,
-      dadosAtualizados,
-    );
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
+  return await apiProfissionais.put(`/profissionais/${id}`, dadosAtualizados);
 };
 
-// EXCLUIR
-
+// EXCLUIR PROFISSIONAL
 export const deletarProfissional = async (id) => {
-  try {
-    const response = await apiProfissionais.delete(`/profissionais/${id}`);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
+  return await apiProfissionais.delete(`/profissionais/${id}`);
 };
 
 // API DE LIVROS DA HOME
 export const getLivro = async (titulo) => {
   try {
     const resposta = await apiLivros.get(
-      `/search.json?q=${encodeURIComponent(titulo)}&limit=1`,
+      `/search.json?q=${encodeURIComponent(titulo)}&limit=1`
     );
     return resposta.data.docs[0];
   } catch (error) {
-    throw new Error("Erro ao buscar livro");
+    console.error("Erro real no Axios ao buscar livro:", error);
+    throw error;
+  }
+};
+
+// API DE FRASES DA HOME
+export const getFrases = async () => {
+  return await apiFrases.get("/frase/obter");
+};
+
+export const criarFrase = async (data) => {
+  return await apiFrases.post("/frase/criar", data);
+};
+
+// API DE REDE DE APOIO
+// Perfeito! Ele busca do endpoint correto usando a rota de profissionais
+export const getApoio = async () => {
+  return await apiProfissionais.get("/apoio");
+};
+
+// LISTAR TODAS AS OPORTUNIDADES
+export const getOportunidades = async (config = {}) => {
+  try {
+    const response = await apiCursos.get("/oportunidades", config);
+    return response;
+  } catch (error) {
+    throw error;
   }
 };

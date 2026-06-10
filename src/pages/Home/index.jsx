@@ -19,15 +19,14 @@ import { getLivro } from "../../services/protagonizaService";
 import { toast } from "react-toastify";
 import { requestFormReset } from "react-dom";
 import { CardLivro } from "../../components/CardLivro";
+import Loading from "../../components/Loading";
 
 export const Home = () => {
   const [mostrar, setMostrar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [livros, setLivros] = useState([]);
 
-  const [livroAtual, setLivroAtual] = useState(
-    "Mulheres que Correm com os Lobos",
-  );
+  const [livroAtual, setLivroAtual] = useState(null);
   const [busca, setBusca] = useState("");
 
   const adicionarLivro = async () => {
@@ -56,10 +55,13 @@ export const Home = () => {
 
   useEffect(() => {
     async function carregarLivro() {
-      const livro = await getLivro(livroAtual);
+      setLoading(true);
+      const livro = await getLivro("Mulheres que Correm com os Lobos");
       if (livro) {
         setLivros([livro]);
+        setLivroAtual(livro);
       }
+      setLoading(false);
     }
 
     carregarLivro();
@@ -144,12 +146,16 @@ export const Home = () => {
       <Text style={{ margin: "10px 0 20px" }}>
         Um livro indicado pela nossa comunidade.
       </Text>
-      {livroAtual && (
-        <CardLivro
-          capa={`https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`}
-          titulo={livroAtual.title}
-          autor={livroAtual.author_name}
-        />
+      {loading ? (
+        <Loading />
+      ) : (
+        livroAtual && (
+          <CardLivro
+            capa={`https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`}
+            titulo={livroAtual.title}
+            autor={livroAtual.author_name}
+          />
+        )
       )}
       <Button onClick={() => setMostrar(!mostrar)}>Indique o próximo.</Button>
 
