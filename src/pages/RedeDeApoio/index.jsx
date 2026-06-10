@@ -16,10 +16,18 @@ export default function RedeDeApoio() {
     async function buscarApoio() {
       try {
         setLoading(true);
-        // Olha como fica limpo! Usamos a função centralizada da equipe:
         const response = await getApoio();
 
-        setApoios(response.data);
+        // Evita que um HTML de erro quebre a aplicação transformando-se em cards falsos
+        if (typeof response.data === "string" && response.data.includes("<!doctype html>")) {
+          throw new Error("A API retornou uma página HTML em vez de dados válidos.");
+        }
+
+        const dadosProcessados = Array.isArray(response.data) 
+          ? response.data 
+          : Object.values(response.data || {});
+
+        setApoios(dadosProcessados);
       } catch (error) {
         console.error("Detalhes do erro:", error);
         setErro(true);
@@ -52,43 +60,45 @@ export default function RedeDeApoio() {
     );
   }
 
-  const listaDeApoios = Array.isArray(apoios) 
-    ? apoios 
-    : (typeof apoios === 'object' && apoios !== null) 
-      ? Object.values(apoios) 
-      : [];
+  const listaSegura = Array.isArray(apoios) ? apoios : [];
 
   return (
     <Container>
       <Title>Rede de Apoio</Title>
       <ApoioList>
-        {listaDeApoios.map((item) => (
-          <Card 
-            key={item.id}
-            titulo={item.nome}
-            descricao={
-              <>
-                <p><strong>Tipo:</strong> {item.tipo}</p>
-                
-                {expandidos.includes(item.id) && (
-                  <div>
-                    <p><strong>Descrição:</strong> {item.descricao}</p>
-                    <p><strong>Contato:</strong> {item.contato}</p>
-                    {item.link && (
-                      <p>
-                        <strong>Link:</strong> <a href={item.link} target="_blank" rel="noopener noreferrer">Acessar</a>
-                      </p>
-                    )}
-                  </div>
-                )}
+        {listaSegura.length === 0 ? (
+          <p>Nenhum dado encontrado na rede de apoio.</p>
+        ) : (
+          listaSegura.map((item) => (
+            <Card 
+              key={item.id}
+              titulo={item.nome || "Sem título"}
+              descricao={
+                <span style={{ display: "block" }}>
+                  <span style={{ display: "block", marginBottom: "8px" }}>
+                    <strong>Tipo:</strong> {item.tipo}
+                  </span>
+                  
+                  {expandidos.includes(item.id) && (
+                    <span style={{ display: "block", marginBottom: "10px" }}>
+                      <span style={{ display: "block", marginBottom: "4px" }}><strong>Descrição:</strong> {item.descricao}</span>
+                      <span style={{ display: "block", marginBottom: "4px" }}><strong>Contato:</strong> {item.contato}</span>
+                      {item.link && (
+                        <span style={{ display: "block" }}>
+                          <strong>Link:</strong> <a href={item.link} target="_blank" rel="noopener noreferrer">Acessar</a>
+                        </span>
+                      )}
+                    </span>
+                  )}
 
-                <ButtonDetails onClick={() => toggleDetalhes(item.id)}>
-                  {expandidos.includes(item.id) ? "Esconder Detalhes" : "Mostrar Detalhes"}
-                </ButtonDetails>
-              </>
-            }
-          />
-        ))}
+                  <ButtonDetails onClick={() => toggleDetalhes(item.id)}>
+                    {expandidos.includes(item.id) ? "Esconder Detalhes" : "Mostrar Detalhes"}
+                  </ButtonDetails>
+                </span>
+              }
+            />
+          ))
+        )}
       </ApoioList>
     </Container>
   );

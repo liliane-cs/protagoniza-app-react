@@ -2,14 +2,16 @@ import { Routes, Route } from "react-router";
 
 import { Home } from "../pages/Home";
 import Profissionais from "../pages/Profissionais";
-import ProfissionalDetalhe from "../pages/ProfissionalDetalhe";
+import { ProfissionalDetalhe } from "../pages/ProfissionalDetalhe";
 import Oportunidades from "../pages/Oportunidades";
+import OportunidadeDetalhe from "../pages/OportunidadeDetalhe";
 import Cursos from "../pages/Cursos";
 import RedeDeApoio from "../pages/RedeDeApoio";
 import Favoritos from "../pages/Favoritos";
-import Login from "../pages/Login";
-import Cadastro from "../pages/Cadastro";
+import { Login } from "../pages/Login";
+import { Cadastro } from "../pages/Cadastro";
 import { Layout } from "../Layout";
+import { MeuPerfil } from "../pages/MeuPerfil";
 
 export function Router() {
   return (
@@ -19,11 +21,13 @@ export function Router() {
         <Route path="/profissionais" element={<Profissionais />} />
         <Route path="/profissionais/:id" element={<ProfissionalDetalhe />} />
         <Route path="/oportunidades" element={<Oportunidades />} />
+        <Route path="/oportunidade/:id" element={<OportunidadeDetalhe />} />
         <Route path="/cursos" element={<Cursos />} />
         <Route path="/apoio" element={<RedeDeApoio />} />
         <Route path="/favoritos" element={<Favoritos />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/meu-perfil" element={<MeuPerfil />} />
       </Route>
     </Routes>
   );
