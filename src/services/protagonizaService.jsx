@@ -3,13 +3,19 @@ import { apiProfissionais, apiLivros } from "./api/Api";
 // LISTAR
 
 export const getProfissionais = async (config = {}) => {
-  try {
-    const response = await apiProfissionais.get("/profissionais", config);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
+    try {
+        const response = await apiProfissionais.get("/profissionais", config);
+        const dados = Array.isArray(response.data)
+            ? response.data
+            : (response.data.profissionais || []);
+        return { dados, erro: null, cancelado: false };
+    } catch (error) {
+        if (error.name === 'CanceledError' || error.name === 'AbortError') {
+            return { dados: [], erro: null, cancelado: true };
+        }
+        console.error('Erro ao buscar profissionais:', error);
+        return { dados: [], erro: 'Ocorreu um erro ao carregar as profissionais.', cancelado: false };
+    }
 };
 
 // CADASTRAR
