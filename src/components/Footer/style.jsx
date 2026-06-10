@@ -18,3 +18,6 @@ export const SocialLink = styled.a`
   margin-right: 10px;
   text-align: end;
 `;
+export const Text = styled.p`
+  color: var(--texto);
+`;

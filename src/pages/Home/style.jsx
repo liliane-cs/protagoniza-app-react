@@ -60,6 +60,9 @@ export const Title = styled.h2`
     color: var(--subtitulo);
   }
 `;
+export const Text = styled.p`
+  color: var(--texto);
+`;
 export const Label = styled.span`
   background-color: var(--fundo-hover);
   color: var(--rosa-escuro);

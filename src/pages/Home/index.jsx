@@ -11,6 +11,7 @@ import {
   CardTitle,
   Button,
   Input,
+  Text,
 } from "./style";
 import Banner from "../../assets/screen.png";
 import { useEffect, useState } from "react";
@@ -86,52 +87,52 @@ export const Home = () => {
               <br /> Talento Feminino
             </i>
           </Title>
-          <p style={{ color: "var(--texto)" }}>
+          <Text style={{ color: "var(--texto)" }}>
             Aqui você divulga seus serviços, encontra oportunidades na sua área,
             aprende no seu ritmo e se conecta com outras mulheres que entendem a
             sua realidade.
-          </p>
+          </Text>
         </HeroText>
         <Imagem src={Banner} alt="" />
       </HeroSection>
       <ServicosSection>
         <Title>O que você encontra aqui</Title>
-        <p>
+        <Text>
           Tudo em um lugar só, pensado para a rotina de quem trabalha por conta
           própria.
-        </p>
+        </Text>
         <CardWrapper>
           <ServicosCard>
             <CardTitle>Divulgue seus serviços</CardTitle>
-            <p>
+            <Text>
               Monte seu perfil profissional, mostre o que você faz e seja
               encontrada por quem precisa dos seus serviços — sem precisar pagar
               por anúncio.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard>
             <CardTitle>Oportunidades na sua área</CardTitle>
-            <p>
+            <Text>
               Freelas, contratos e parcerias de pessoas que buscam profissionais
               como você.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard>
             <CardTitle>Cursos práticos</CardTitle>
-            <p>
+            <Text>
               Aprenda precificação, vendas, redes sociais e muito mais — do
               jeito que cabe na sua rotina.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard style={{ backgroundColor: "var(--rosa-escuro)" }}>
             <CardTitle style={{ color: "var(--texto-invertido)" }}>
               Rede de apoio
             </CardTitle>
-            <p style={{ color: "var(--texto-invertido)" }}>
+            <Text style={{ color: "var(--texto-invertido)" }}>
               Troca de experiências, dicas e indicações entre mulheres que já
               passaram pelo que você está vivendo agora. Porque crescer junto é
               mais fácil.
-            </p>
+            </Text>
           </ServicosCard>
         </CardWrapper>
       </ServicosSection>
@@ -140,9 +141,9 @@ export const Home = () => {
       <Title style={{ fontSize: "25px", margin: "20px 0 5px" }}>
         Palavras que nos movem
       </Title>
-      <p style={{ margin: "10px 0 20px" }}>
+      <Text style={{ margin: "10px 0 20px" }}>
         Um livro indicado pela nossa comunidade.
-      </p>
+      </Text>
       {livroAtual && (
         <CardLivro
           capa={`https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`}
