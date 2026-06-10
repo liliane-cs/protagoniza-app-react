@@ -31,7 +31,7 @@ export default function Oportunidades() {
     item.titulo?.toLowerCase().includes(busca.toLowerCase())
   );
 
-  if (loading) return <Loading />; // mostra o componente de loading
+  if (loading) return <Loading />; 
   if (error)
     return (
       <div style={{ color: "red", textAlign: "center", padding: "50px" }}>

@@ -17,11 +17,10 @@ export default function OportunidadeDetalhe() {
   useEffect(() => {
     async function buscarOportunidade() {
       try {
-        console.log("Buscando oportunidade com id:", id); 
         const resposta = await apiCursos.get(`/oportunidades/${id}`);
-        console.log("Resposta da API:", resposta.data); 
+        setOportunidade(resposta.data);
       } catch (error) {
-        console.error("Erro ao buscar oportunidade:", error); 
+        console.error("Erro ao buscar oportunidade:", error);
         setErro(true);
       } finally {
         setLoading(false);
@@ -31,7 +30,7 @@ export default function OportunidadeDetalhe() {
     buscarOportunidade();
   }, [id]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading />; 
   if (erro) return <ErrorMessage mensagem="Não foi possível carregar a oportunidade." />;
   if (!oportunidade) return <ErrorMessage mensagem="Oportunidade não encontrada." />;
 
@@ -40,8 +39,8 @@ export default function OportunidadeDetalhe() {
       <Voltar onClick={() => navigate("/oportunidades")}>← Voltar</Voltar>
 
       <Card
-        titulo={oportunidade.titulo || oportunidade.name}
-        descricao={oportunidade.descricao || oportunidade.area}
+        titulo={oportunidade.titulo}
+        descricao={oportunidade.descricao}
         imagem={oportunidade.imagem}
       />
 
