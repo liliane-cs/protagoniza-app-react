@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { apiProfissionais } from "../../services/api/Api";
+import { getProfissionais } from "../../services/protagonizaService";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Header } from "../../components/Header";
@@ -16,10 +16,10 @@ export default function ProfissionalDetalhe() {
   useEffect(() => {
     async function buscarProfissional() {
       try {
-        const resposta = await apiProfissionais.get("/profissionais");
+        const resposta = await getProfissionais();
 
         const profissionalEncontrada = resposta.data.find(
-          (prof) => prof.id === Number(id),
+          (prof) => String(prof.id) === String(id)
         );
 
         setProfissional(profissionalEncontrada);
@@ -33,20 +33,15 @@ export default function ProfissionalDetalhe() {
     buscarProfissional();
   }, [id]);
 
-
   if (loading) return <Loading />;
-
   if (erro) return <ErrorMessage />;
-
-  if (!profissional)
-    return <ErrorMessage mensagem="Profissional não encontrada" />;
-
+  if (!profissional) return <ErrorMessage mensagem="Profissional não encontrada" />;
 
   return (
     <>
-    <button onClick={() => navigate("/profissionais")}>
-      ← Voltar para profissionais
-    </button>
+      <button onClick={() => navigate("/profissionais")}>
+        ← Voltar para profissionais
+      </button>
 
       <h1>{profissional.nome}</h1>
       <p>{profissional.area}</p>

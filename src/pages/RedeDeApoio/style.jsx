@@ -7,7 +7,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: #333;
+  color: var(--titulo);
   text-align: center;
   margin-bottom: 2rem;
 `;
@@ -18,35 +18,37 @@ export const ApoioList = styled.div`
   gap: 1rem;
 `;
 
-
 export const ApoioCard = styled.div`
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: var(--fundo-principal);
+  border: 1px solid var(--borda-suave);
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
   h3 {
     margin-top: 0;
-    color: #4a148c; /* Um roxo básico só pra começar */
+    color: var(--roxo);
   }
 
   p {
     margin: 0.5rem 0;
+    color: var(--texto-secundario);
   }
 `;
 
 export const ButtonDetails = styled.button`
-  background-color: #4a148c;
-  color: white;
+  background-color: var(--roxo);
+  color: var(--texto-invertido);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 1rem;
   font-weight: bold;
+  transition: background-color 0.3s;
 
   &:hover {
-    background-color: #7c43bd;
+    background-color: var(--roxo-claro);
+    color: var(--texto);
   }
 `;

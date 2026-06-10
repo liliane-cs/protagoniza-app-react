@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { apiProfissionais } from "../../services/api/Api"; 
-import { Container, Title, ApoioList, ApoioCard, ButtonDetails } from "./style";
+import { getApoio } from "../../services/protagonizaService";
+import Card from "../../components/Card";
+import Loading from "../../components/Loading";
+import { Container, Title, ApoioList, ButtonDetails } from "./style";
 
 export default function RedeDeApoio() {
   const [apoios, setApoios] = useState([]);
@@ -14,8 +16,9 @@ export default function RedeDeApoio() {
     async function buscarApoio() {
       try {
         setLoading(true);
-       
-        const response = await apiProfissionais.get("/apoio");
+        // Olha como fica limpo! Usamos a função centralizada da equipe:
+        const response = await getApoio();
+
         setApoios(response.data);
       } catch (error) {
         console.error("Detalhes do erro:", error);
@@ -38,11 +41,7 @@ export default function RedeDeApoio() {
   };
 
   if (loading) {
-    return (
-      <Container>
-        <Title>Carregando rede de apoio...</Title>
-      </Container>
-    );
+    return <Loading />;
   }
 
   if (erro) {
@@ -53,31 +52,42 @@ export default function RedeDeApoio() {
     );
   }
 
+  const listaDeApoios = Array.isArray(apoios) 
+    ? apoios 
+    : (typeof apoios === 'object' && apoios !== null) 
+      ? Object.values(apoios) 
+      : [];
+
   return (
     <Container>
       <Title>Rede de Apoio</Title>
       <ApoioList>
-        {apoios.map((item) => (
-          <ApoioCard key={item.id}>
-            <h3>{item.nome}</h3>
-            <p><strong>Tipo:</strong> {item.tipo}</p>
-
-            {expandidos.includes(item.id) && (
-              <div>
-                <p><strong>Descrição:</strong> {item.descricao}</p>
-                <p><strong>Contato:</strong> {item.contato}</p>
-                {item.link && (
-                  <p>
-                    <strong>Link:</strong> <a href={item.link} target="_blank" rel="noopener noreferrer">Acessar</a>
-                  </p>
+        {listaDeApoios.map((item) => (
+          <Card 
+            key={item.id}
+            titulo={item.nome}
+            descricao={
+              <>
+                <p><strong>Tipo:</strong> {item.tipo}</p>
+                
+                {expandidos.includes(item.id) && (
+                  <div>
+                    <p><strong>Descrição:</strong> {item.descricao}</p>
+                    <p><strong>Contato:</strong> {item.contato}</p>
+                    {item.link && (
+                      <p>
+                        <strong>Link:</strong> <a href={item.link} target="_blank" rel="noopener noreferrer">Acessar</a>
+                      </p>
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
 
-            <ButtonDetails onClick={() => toggleDetalhes(item.id)}>
-              {expandidos.includes(item.id) ? "Esconder Detalhes" : "Mostrar Detalhes"}
-            </ButtonDetails>
-          </ApoioCard>
+                <ButtonDetails onClick={() => toggleDetalhes(item.id)}>
+                  {expandidos.includes(item.id) ? "Esconder Detalhes" : "Mostrar Detalhes"}
+                </ButtonDetails>
+              </>
+            }
+          />
         ))}
       </ApoioList>
     </Container>

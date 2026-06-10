@@ -50,7 +50,7 @@ export const LinkNav = styled(NavLink)`
   padding-bottom: 5px;
 
   &.active {
-    font-size: 14px;
+    font-size: 13px;
     border-bottom: 2px solid var(--rosa-escuro);
     color: var(--rosa-escuro);
   }
@@ -64,7 +64,7 @@ export const LinkNav = styled(NavLink)`
     margin: 0 16px;
 
     &.active {
-      font-size: 16px;
+      font-size: 15px;
     }
   }
 `;
