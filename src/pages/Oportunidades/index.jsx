@@ -3,7 +3,7 @@ import { apiCursos } from "../../services/api/Api";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card"; 
-import Loading from "../../components/Loading"; // componente de loading
+import Loading from "../../components/Loading"; 
 
 export default function Oportunidades() {
   const [oportunidades, setOportunidades] = useState([]);

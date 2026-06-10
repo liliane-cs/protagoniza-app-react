@@ -60,15 +60,10 @@ export const ProfissionalDetalhe = () => {
       </Button>
 
       <h1>{profissional.nome}</h1>
-
       <p>{profissional.area}</p>
-
       <p>{profissional.cidade}</p>
-
       <p>{profissional.descricao}</p>
-
       <p>{profissional.contato}</p>
-
       <img src={profissional.foto} alt={profissional.nome} />
     </>
   );

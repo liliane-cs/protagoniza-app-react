@@ -17,7 +17,6 @@ export default function OportunidadeDetalhe() {
       try {
         const resposta = await apiCursos.get("/oportunidades");
 
-        // procura a oportunidade pelo id
         const oportunidadeEncontrada = resposta.data.find(
           (item) => String(item.id) === String(id)
         );
