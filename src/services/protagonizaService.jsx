@@ -1,4 +1,4 @@
-import { apiProfissionais, apiFrases } from "./api/Api";
+import { apiProfissionais, apiLivros } from "./api/Api";
 
 // PROFISSIONAIS E CRUD FEITO EM CADASTRO
 export const getProfissionais = async () => {
@@ -37,22 +37,14 @@ export const deletarProfissional = async (id) => {
   }
 };
 
-// API DE FRASES DA HOME
-export const getFrases = async () => {
+// API DE LIVROS DA HOME
+export const getLivro = async (titulo) => {
   try {
-    const resposta = await apiFrases.get("/frase/obter");
-    return resposta;
+    const resposta = await apiLivros.get(
+      `/search.json?q=${encodeURIComponent(titulo)}&limit=1`,
+    );
+    return resposta.data.docs[0];
   } catch (error) {
-    throw new Error(error);
+    throw new Error("Erro ao buscar livro");
   }
 };
-
-export const criarFrase = async (data) => {
-  try {
-    const resposta = await apiFrases.post("/frase/criar", data);
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
