@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
 import { getProfissionais } from "../../services/protagonizaService";
+
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-import { Header } from "../../components/Header";
+import Button from "../../components/Button";
 
-export default function ProfissionalDetalhe() {
+export const ProfissionalDetalhe = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,41 +16,60 @@ export default function ProfissionalDetalhe() {
   const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    async function buscarProfissional() {
-      try {
-        const resposta = await getProfissionais();
+    async function carregarProfissional() {
+      const response = await getProfissionais();
 
-        const profissionalEncontrada = resposta.data.find(
-          (prof) => String(prof.id) === String(id)
-        );
-
-        setProfissional(profissionalEncontrada);
-      } catch (error) {
+      if (response.status !== 200) {
         setErro(true);
-      } finally {
         setLoading(false);
+        return;
       }
+
+      const profissionalEncontrada = response.data.find(
+        (prof) => String(prof.id) === String(id),
+      );
+
+      if (!profissionalEncontrada) {
+        setErro(true);
+        setLoading(false);
+        return;
+      }
+
+      setProfissional(profissionalEncontrada);
+      setLoading(false);
     }
 
-    buscarProfissional();
+    carregarProfissional();
   }, [id]);
+  if (loading) {
+    return <Loading />;
+  }
 
-  if (loading) return <Loading />;
-  if (erro) return <ErrorMessage />;
-  if (!profissional) return <ErrorMessage mensagem="Profissional não encontrada" />;
+  if (erro) {
+    return <ErrorMessage />;
+  }
+
+  if (!profissional) {
+    return <ErrorMessage mensagem="Profissional não encontrada" />;
+  }
 
   return (
     <>
-      <button onClick={() => navigate("/profissionais")}>
+      <Button onClick={() => navigate("/profissionais")}>
         ← Voltar para profissionais
-      </button>
+      </Button>
 
       <h1>{profissional.nome}</h1>
+
       <p>{profissional.area}</p>
+
       <p>{profissional.cidade}</p>
+
       <p>{profissional.descricao}</p>
+
       <p>{profissional.contato}</p>
+
       <img src={profissional.foto} alt={profissional.nome} />
     </>
   );
-}
+};

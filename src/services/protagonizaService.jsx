@@ -1,58 +1,55 @@
-import { apiProfissionais, apiFrases } from "./api/Api";
+import { apiProfissionais } from "./api/Api";
 
-// PROFISSIONAIS E CRUD FEITO EM CADASTRO
-export const getProfissionais = async () => {
+// LISTAR
+
+export const getProfissionais = async (config = {}) => {
   try {
-    const resposta = await apiProfissionais.get("/profissionais");
-    return resposta;
+    const response = await apiProfissionais.get("/profissionais", config);
+
+    return response;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
-export const cadastrarProfissional = async (data) => {
+// CADASTRAR
+
+export const cadastrarProfissional = async (novoProfissional) => {
   try {
-    const resposta = await apiProfissionais.post("/profissionais", data);
-    return resposta;
+    const response = await apiProfissionais.post(
+      "/profissionais",
+      novoProfissional,
+    );
+
+    return response;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
-export const editarProfissional = async (id, data) => {
+// EDITAR
+
+export const editarProfissional = async (id, dadosAtualizados) => {
   try {
-    const resposta = await apiProfissionais.put(`/profissionais/${id}`, data);
-    return resposta;
+    const response = await apiProfissionais.put(
+      `/profissionais/${id}`,
+      dadosAtualizados,
+    );
+
+    return response;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
+
+// EXCLUIR
 
 export const deletarProfissional = async (id) => {
   try {
-    const resposta = await apiProfissionais.delete(`/profissionais/${id}`);
-    return resposta;
+    const response = await apiProfissionais.delete(`/profissionais/${id}`);
+
+    return response;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
-
-// API DE FRASES DA HOME
-export const getFrases = async () => {
-  try {
-    const resposta = await apiFrases.get("/frase/obter");
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const criarFrase = async (data) => {
-  try {
-    const resposta = await apiFrases.post("/frase/criar", data);
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-

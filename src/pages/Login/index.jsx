@@ -1,16 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
-import { apiProfissionais } from "../../services/api/Api";
-import { Link } from "react-router-dom";
 
-export default function Login() {
+import Button from "../../components/Button";
+import CampoFormulario from "../../components/CampoFormulario";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
+
+import { getProfissionais } from "../../services/protagonizaService";
+
+export const Login = () => {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [erro, setErro] = useState(false);
 
   async function fazerLogin() {
     if (!email || !senha) {
@@ -19,6 +25,7 @@ export default function Login() {
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
     if (!emailValido) {
       toast.error("Digite um e-mail válido!");
       return;
@@ -29,59 +36,81 @@ export default function Login() {
       return;
     }
 
-    try {
-      const resposta = await apiProfissionais.get("/profissionais");
-      const usuarioEncontrado = resposta.data.find(
-        (user) => user.email === email && user.senha === senha
-      );
+    setIsLoading(true);
 
-      if (!usuarioEncontrado) {
-        toast.error("Email ou senha incorretos!");
-        return;
-      }
+    const response = await getProfissionais();
 
-      navigate("/profissionais");
-    } catch (error) {
-      toast.error("Erro ao conectar com o servidor!");
+    if (response.status !== 200) {
+      setErro(true);
+      setIsLoading(false);
+      return;
     }
+
+    const usuarioEncontrado = response.data.find(
+      (user) => user.email === email && user.senha === senha,
+    );
+
+    if (!usuarioEncontrado) {
+      toast.error("Email ou senha incorretos!");
+      setIsLoading(false);
+      return;
+    }
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
+
+    setIsLoading(false);
+
+    navigate("/profissionais");
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (erro) {
+    return <ErrorMessage />;
   }
 
   return (
-  <>
-    <ToastContainer />
-    <h1>Login</h1>
-    <p>Que bom te ver de novo!</p>
-    <p>Faça login para acessar sua conta e conectar-se a oportunidades incríveis.</p>
+    <>
+      <ToastContainer />
 
-    <label>E-mail</label>
-    <Input
-      type="email"
-      placeholder="seu@email.com"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-    />
+      <h1>Faça seu login e protagonize!</h1>
 
-    <label>Senha</label>
-    <Input
-      type="password"
-      placeholder="Digite sua senha"
-      value={senha}
-      onChange={(e) => setSenha(e.target.value)}
-    />
+      <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
 
-    <Link to="#">Esqueci minha senha</Link>
+      <CampoFormulario
+        labelDoCampo="E-mail"
+        tipoDoCampo="email"
+        placeholderDoCampo="Digite seu e-mail, diva!"
+        valorDoCampo={email}
+        aoMudar={(e) => setEmail(e.target.value)}
+      />
 
-    <Button onClick={fazerLogin}>Entrar</Button>
+      <CampoFormulario
+        labelDoCampo="Senha"
+        tipoDoCampo="password"
+        placeholderDoCampo="Sua senha de protagonista"
+        valorDoCampo={senha}
+        aoMudar={(e) => setSenha(e.target.value)}
+      />
 
-    <p>ou continue com</p>
+      <Link to="#">Esqueci minha senha</Link>
 
-    <button>G Continuar com Google</button>
-    <button>in Continuar com LinkedIn</button>
+      <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
 
-    <p>Ainda não tem uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
+      <p>ou continue com</p>
 
-    <Link to="/">← Voltar para a home</Link>
-  </>
-);
-}
+      <Button estiloBotao="outline">G Continuar com Google</Button>
 
+      <Button estiloBotao="outline">in Continuar com LinkedIn</Button>
+
+      <p>
+        Ainda não faz parte dessa rede de mulheres incríveis?{" "}
+        <Link to="/cadastro">Cadastre-se agora</Link>
+      </p>
+
+      <Link to="/">← Voltar para nossa casa</Link>
+    </>
+  );
+};
