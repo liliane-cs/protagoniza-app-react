@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Adicionamos o link direto como "Plano B" caso o .env não seja lido pelo Vite
+
 const baseUrlProfissionais = import.meta.env.VITE_API_PROFISSIONAIS || "https://6a2455f8420469ff067afedb.mockapi.io/api/v1";
 const baseUrlCursos = import.meta.env.VITE_API_CURSOS || "https://6a2450f1420469ff067afb7c.mockapi.io/api/v1";
 const baseUrlLivros = import.meta.env.VITE_API_LIVROS || "https://openlibrary.org"; // Fallback para a API de livros se necessário
@@ -67,4 +67,14 @@ export const criarFrase = async (data) => {
 // Perfeito! Ele busca do endpoint correto usando a rota de profissionais
 export const getApoio = async () => {
   return await apiProfissionais.get("/apoio");
+};
+
+// LISTAR TODAS AS OPORTUNIDADES
+export const getOportunidades = async (config = {}) => {
+  try {
+    const response = await apiCursos.get("/oportunidades", config);
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
