@@ -65,3 +65,18 @@ export const getLivro = async (titulo) => {
     throw new Error("Erro ao buscar livro");
   }
 };
+
+
+import { apiCursos } from "./api/Api";
+
+// LISTAR TODAS AS OPORTUNIDADES
+export const getOportunidades = async (config = {}) => {
+  try {
+    const response = await apiCursos.get("/oportunidades", config);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+

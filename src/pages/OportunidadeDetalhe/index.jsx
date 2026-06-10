@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { apiCursos } from "../../services/api/Api";
+import { getOportunidades } from "../../services/protagonizaService";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
@@ -15,13 +15,11 @@ export default function OportunidadeDetalhe() {
   useEffect(() => {
     async function buscarOportunidade() {
       try {
-        const resposta = await apiCursos.get("/oportunidades");
-
-        const oportunidadeEncontrada = resposta.data.find(
+        const resposta = await getOportunidades(); // busca todas
+        const encontrada = resposta.data.find(
           (item) => String(item.id) === String(id)
         );
-
-        setOportunidade(oportunidadeEncontrada);
+        setOportunidade(encontrada);
       } catch (error) {
         console.error("Erro ao buscar oportunidade:", error);
         setErro(true);
@@ -29,7 +27,6 @@ export default function OportunidadeDetalhe() {
         setLoading(false);
       }
     }
-
     buscarOportunidade();
   }, [id]);
 
@@ -44,7 +41,7 @@ export default function OportunidadeDetalhe() {
         ← Voltar para oportunidades
       </button>
 
-       <h1>{oportunidade.titulo}</h1>
+      <h1>{oportunidade.titulo}</h1>
       <p><strong>Área:</strong> {oportunidade.area}</p>
       <p><strong>Empresa:</strong> {oportunidade.empresa}</p>
       <p><strong>Tipo:</strong> {oportunidade.tipo}</p>
@@ -58,3 +55,4 @@ export default function OportunidadeDetalhe() {
     </>
   );
 }
+
