@@ -1,11 +1,17 @@
 import axios from "axios";
 
-// Profissionais e Apoio
+const baseUrlProfissionais = import.meta.env.VITE_API_PROFISSIONAIS;
+const baseUrlCursos = import.meta.env.VITE_API_CURSOS;
+const baseUrlFrases = import.meta.env.VITE_API_FRASES;
+
 export const apiProfissionais = axios.create({
-  baseURL: "https://6a270383a84f9d39e908301e.mockapi.io/api/v1",
+  baseURL: `${baseUrlProfissionais}`,
 });
 
-// Oportunidades e Cursos
 export const apiCursos = axios.create({
-  baseURL: "https://6a2450f1420469ff067afb7c.mockapi.io/api/v1"
+  baseURL: `${baseUrlCursos}`,
+});
+
+export const apiFrases = axios.create({
+  baseURL: `${baseUrlFrases}`,
 });
