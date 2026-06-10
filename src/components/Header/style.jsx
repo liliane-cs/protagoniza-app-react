@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.header`
   top: 0;
   z-index: 999;
   box-shadow: 2px 0 10px var(--rosa-claro);
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--fundo-header);
   backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
@@ -47,12 +47,12 @@ export const LinkNav = styled(NavLink)`
   font-weight: 700;
   font-size: 12px;
   margin: 0 8px;
-  padding-bottom: 5px;
 
   &.active {
     font-size: 13px;
     border-bottom: 2px solid var(--rosa-escuro);
     color: var(--rosa-escuro);
+    padding-bottom: 5px;
   }
 
   &:hover {
@@ -68,4 +68,13 @@ export const LinkNav = styled(NavLink)`
     }
   }
 `;
-export const Icons = styled.div``;
+export const IconeTheme = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--rosa-medio);
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+`;

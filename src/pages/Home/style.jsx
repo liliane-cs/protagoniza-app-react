@@ -60,6 +60,9 @@ export const Title = styled.h2`
     color: var(--subtitulo);
   }
 `;
+export const Text = styled.p`
+  color: var(--texto);
+`;
 export const Label = styled.span`
   background-color: var(--fundo-hover);
   color: var(--rosa-escuro);
@@ -81,23 +84,19 @@ export const Imagem = styled.img`
 `;
 export const Button = styled.button`
   border: none;
-  background: transparent;
-  text-decoration: underline;
+  border-radius: 6px;
   font-size: 16px;
-  color: var(--rosa-medio);
+  padding: 8px 12px;
+  margin-top: 20px;
+  color: var(--texto-invertido);
+  background-color: var(--rosa-medio);
   cursor: pointer;
 `;
 export const Input = styled.input`
-  border-radius: 10px;
+  border-radius: 6px;
   border: 1px solid var(--rosa-medio);
   padding: 8px 10px;
   margin: 0 10px;
-`;
-export const Quote = styled.p`
-  background: var(--rosa-claro);
-  border-radius: 10px;
-  border: 1px solid var(--borda-suave);
-  box-shadow: 1px 0 10px var(--borda-suave);
-  padding: 8px 10px;
-  margin: 20px 0;
+  background: transparent;
+  color: var(--texto);
 `;

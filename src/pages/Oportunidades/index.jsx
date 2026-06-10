@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { apiCursos } from "../../services/api/Api";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import Card from "../../components/Card"; 
-import Loading from "../../components/Loading"; 
+import Card from "../../components/Card";
+import Loading from "../../components/Loading";
 
 export default function Oportunidades() {
   const [oportunidades, setOportunidades] = useState([]);
@@ -28,10 +28,10 @@ export default function Oportunidades() {
   }, []);
 
   const oportunidadesFiltradas = oportunidades.filter((item) =>
-    item.titulo?.toLowerCase().includes(busca.toLowerCase())
+    item.titulo?.toLowerCase().includes(busca.toLowerCase()),
   );
 
-  if (loading) return <Loading />; 
+  if (loading) return <Loading />;
   if (error)
     return (
       <div style={{ color: "red", textAlign: "center", padding: "50px" }}>
@@ -41,7 +41,9 @@ export default function Oportunidades() {
 
   return (
     <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1 style={{ marginBottom: "20px", color: "#333" }}>Oportunidades</h1>
+      <h1 style={{ marginBottom: "20px", color: "var(--texto)" }}>
+        Oportunidades
+      </h1>
 
       <input
         type="text"

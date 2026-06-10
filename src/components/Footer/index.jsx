@@ -1,16 +1,19 @@
-import { FooterWrapper, Logo, SocialLink, SocialSection } from "./style";
+import { Link } from "react-router-dom";
+import { FooterWrapper, Logo, SocialLink, SocialSection, Text } from "./style";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export const Footer = () => {
   return (
     <FooterWrapper>
       <div>
-        <Logo>Protagoniza</Logo>
-        <p>Sua história, seu protagonismo, nosso apoio.</p>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Logo>Protagoniza</Logo>
+        </Link>
+        <Text>Sua história, seu protagonismo, nosso apoio.</Text>
       </div>
       <SocialSection>
-        <p>Desenvolvido por:</p>
-        <p>
+        <Text>Desenvolvido por:</Text>
+        <Text>
           <SocialLink href="https://github.com/Annajleite" target="_blank">
             <FaGithub />
           </SocialLink>
@@ -21,9 +24,9 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink>
           Anna Júlia Leite
-        </p>
+        </Text>
 
-        <p>
+        <Text>
           <SocialLink href="https://github.com/liliane-cs" target="_blank">
             <FaGithub />
           </SocialLink>
@@ -34,8 +37,8 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink>
           Liliane Costa
-        </p>
-        <p>
+        </Text>
+        <Text>
           <SocialLink href="https://github.com/Luisa-abreu" target="_blank">
             <FaGithub />
           </SocialLink>
@@ -46,10 +49,10 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink>
           Luísa Fontes
-        </p>
+        </Text>
       </SocialSection>
       <SocialSection>
-        <p>
+        <Text>
           <SocialLink
             href="https://github.com/leticiaguimaraes"
             target="_blank"
@@ -63,8 +66,8 @@ export const Footer = () => {
               <FaLinkedin />
             </SocialLink> */}
           Leticia Guimarães
-        </p>
-        <p>
+        </Text>
+        <Text>
           <SocialLink
             href="https://github.com/natasha-mendonca"
             target="_blank"
@@ -78,8 +81,8 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink>
           Natasha Mendonça
-        </p>
-        <p>
+        </Text>
+        <Text>
           <SocialLink href="https://github.com/davila-hue" target="_blank">
             <FaGithub />
           </SocialLink>
@@ -90,8 +93,8 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink>
           Nivea D Avila
-        </p>
-        <p>
+        </Text>
+        <Text>
           <SocialLink href="https://github.com/yasmimverissimo" target="_blank">
             <FaGithub />
           </SocialLink>
@@ -102,7 +105,7 @@ export const Footer = () => {
             <FaLinkedin />
           </SocialLink> */}
           Yasmim Verissimo
-        </p>
+        </Text>
       </SocialSection>
     </FooterWrapper>
   );

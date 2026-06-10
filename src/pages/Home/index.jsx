@@ -11,72 +11,71 @@ import {
   CardTitle,
   Button,
   Input,
-  Quote,
+  Text,
 } from "./style";
 import Banner from "../../assets/screen.png";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getLivro } from "../../services/protagonizaService";
+import { toast } from "react-toastify";
+import { requestFormReset } from "react-dom";
+import { CardLivro } from "../../components/CardLivro";
 
 export const Home = () => {
-  const [mostrarAdicao, setMostrarAdicao] = useState();
-  const [frases, setFrases] = useState([]);
-  const [fraseAtual, setFraseAtual] = useState("");
-  const [fraseNova, setFraseNova] = useState("");
+  const [mostrar, setMostrar] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [livros, setLivros] = useState([]);
 
-  const [nome, setNome] = useState("");
+  const [livroAtual, setLivroAtual] = useState(
+    "Mulheres que Correm com os Lobos",
+  );
+  const [busca, setBusca] = useState("");
 
-  const adicionarFrase = () => {
-    axios
-      .post("https://frases.docapi.dev/frase/criar", {
-        frase: fraseNova,
-        nomeAutor: nome,
-      })
-      .then((resp) => {
-        const nova = resp.data;
+  const adicionarLivro = async () => {
+    if (!busca.trim()) {
+      toast.warning("Digite um nome de um livro.");
+      return;
+    }
 
-        setFrases((prev) => {
-          const atualizadas = [...prev, nova];
+    setLoading(true);
 
-          const random =
-            atualizadas[Math.floor(Math.random() * atualizadas.length)];
+    const livro = await getLivro(busca);
 
-          setFraseAtual(`${random.frase} - ${random.nomeAutor}`);
+    if (!livro) {
+      toast.error("Livro não encontrado");
+      setLoading(false);
+      return;
+    }
 
-          return atualizadas;
-        });
+    setLivros((prev) => [...prev, livro]);
+    setLivroAtual(livro);
 
-        setFraseNova("");
-        setNome("");
-      })
-      .catch(() => {
-        setFraseAtual("Acredite no seu potencial!");
-      });
+    toast.success("Livro indicado com sucesso");
+    setBusca("");
+    setLoading(false);
   };
 
   useEffect(() => {
-    axios.get("https://frases.docapi.dev/frase/obter").then((resp) => {
-      console.log(resp.data);
-      const frases = resp.data.resposta;
+    async function carregarLivro() {
+      const livro = await getLivro(livroAtual);
+      if (livro) {
+        setLivros([livro]);
+      }
+    }
 
-      setFrases(resp.data.resposta);
-    });
+    carregarLivro();
   }, []);
 
   useEffect(() => {
-    if (frases.length === 0) return;
+    if (livros.length === 0) return;
 
-    const trocarFrase = () => {
-      const random = frases[Math.floor(Math.random() * frases.length)];
+    const interval = setInterval(() => {
+      const random = livros[Math.floor(Math.random() * livros.length)];
 
-      setFraseAtual(`${random.frase} - ${random.nomeAutor}`);
-    };
+      setLivroAtual(random);
+    }, 5000);
 
-    trocarFrase();
-
-    const interval = setInterval(trocarFrase, 5000);
     return () => clearInterval(interval);
-  }, [frases]);
-
+  }, [livros]);
   return (
     <Main>
       <HeroSection>
@@ -88,89 +87,85 @@ export const Home = () => {
               <br /> Talento Feminino
             </i>
           </Title>
-          <p style={{ color: "var(--texto)" }}>
+          <Text style={{ color: "var(--texto)" }}>
             Aqui você divulga seus serviços, encontra oportunidades na sua área,
             aprende no seu ritmo e se conecta com outras mulheres que entendem a
             sua realidade.
-          </p>
+          </Text>
         </HeroText>
         <Imagem src={Banner} alt="" />
       </HeroSection>
       <ServicosSection>
         <Title>O que você encontra aqui</Title>
-        <p>
+        <Text>
           Tudo em um lugar só, pensado para a rotina de quem trabalha por conta
           própria.
-        </p>
+        </Text>
         <CardWrapper>
           <ServicosCard>
             <CardTitle>Divulgue seus serviços</CardTitle>
-            <p>
+            <Text>
               Monte seu perfil profissional, mostre o que você faz e seja
               encontrada por quem precisa dos seus serviços — sem precisar pagar
               por anúncio.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard>
             <CardTitle>Oportunidades na sua área</CardTitle>
-            <p>
+            <Text>
               Freelas, contratos e parcerias de pessoas que buscam profissionais
               como você.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard>
             <CardTitle>Cursos práticos</CardTitle>
-            <p>
+            <Text>
               Aprenda precificação, vendas, redes sociais e muito mais — do
               jeito que cabe na sua rotina.
-            </p>
+            </Text>
           </ServicosCard>
           <ServicosCard style={{ backgroundColor: "var(--rosa-escuro)" }}>
             <CardTitle style={{ color: "var(--texto-invertido)" }}>
               Rede de apoio
             </CardTitle>
-            <p style={{ color: "var(--texto-invertido)" }}>
+            <Text style={{ color: "var(--texto-invertido)" }}>
               Troca de experiências, dicas e indicações entre mulheres que já
               passaram pelo que você está vivendo agora. Porque crescer junto é
               mais fácil.
-            </p>
+            </Text>
           </ServicosCard>
         </CardWrapper>
       </ServicosSection>
-      <Title style={{ display: " flex", justifyContent: "space-between" }}>
+
+      <Label>Leitura da comunidade</Label>
+      <Title style={{ fontSize: "25px", margin: "20px 0 5px" }}>
         Palavras que nos movem
       </Title>
-      <p>
-        Frases reais de mulheres reais.{" "}
-        <Button onClick={() => setMostrarAdicao(!mostrarAdicao)}>
-          Deixe a sua também. Clique aqui!
-        </Button>
-      </p>
-      {mostrarAdicao && (
-        <div style={{ marginTop: "20px" }}>
-          <Input
-            type="text"
-            placeholder="Digite uma frase"
-            value={fraseNova}
-            onChange={(e) => setFraseNova(e.target.value)}
-          />
-
-          <Input
-            type="text"
-            placeholder="Seu nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-
-          <Button onClick={adicionarFrase} style={{ textDecoration: "none" }}>
-            {" "}
-            ENVIAR
-          </Button>
-        </div>
+      <Text style={{ margin: "10px 0 20px" }}>
+        Um livro indicado pela nossa comunidade.
+      </Text>
+      {livroAtual && (
+        <CardLivro
+          capa={`https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`}
+          titulo={livroAtual.title}
+          autor={livroAtual.author_name}
+        />
       )}
-      <Quote style={{ textTransform: "unset", fontSize: "18px" }}>
-        💬 {fraseAtual || "Carregando inspiração..."}
-      </Quote>
+      <Button onClick={() => setMostrar(!mostrar)}>Indique o próximo.</Button>
+
+      {mostrar && (
+        <>
+          <Input
+            placeholder="Indique um livro"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+
+          <Button onClick={adicionarLivro}>
+            {loading ? "Enviando..." : "Enviar"}
+          </Button>
+        </>
+      )}
     </Main>
   );
 };

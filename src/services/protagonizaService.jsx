@@ -1,4 +1,4 @@
-import { apiProfissionais } from "./api/Api";
+import { apiProfissionais, apiLivros } from "./api/Api";
 
 // LISTAR
 
@@ -51,5 +51,17 @@ export const deletarProfissional = async (id) => {
     return response;
   } catch (error) {
     throw error;
+  }
+};
+
+// API DE LIVROS DA HOME
+export const getLivro = async (titulo) => {
+  try {
+    const resposta = await apiLivros.get(
+      `/search.json?q=${encodeURIComponent(titulo)}&limit=1`,
+    );
+    return resposta.data.docs[0];
+  } catch (error) {
+    throw new Error("Erro ao buscar livro");
   }
 };
