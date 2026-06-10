@@ -5,6 +5,7 @@ import { getProfissionais } from "../../services/protagonizaService";
 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+import Button from "../../components/Button";
 
 export const ProfissionalDetalhe = () => {
   const { id } = useParams();
@@ -23,16 +24,11 @@ export const ProfissionalDetalhe = () => {
       return;
     }
 
-    const profissionalEncontrada =
-      response.data.find(
-        (prof) =>
-          String(prof.id) === String(id)
-      );
-
-    setProfissional(
-      profissionalEncontrada
+    const profissionalEncontrada = response.data.find(
+      (prof) => String(prof.id) === String(id)
     );
 
+    setProfissional(profissionalEncontrada);
     setLoading(false);
   }
 
@@ -49,20 +45,14 @@ export const ProfissionalDetalhe = () => {
   }
 
   if (!profissional) {
-    return (
-      <ErrorMessage mensagem="Profissional não encontrada" />
-    );
+    return <ErrorMessage mensagem="Profissional não encontrada" />;
   }
 
   return (
     <>
-      <button
-        onClick={() =>
-          navigate("/profissionais")
-        }
-      >
+      <Button onClick={() => navigate("/profissionais")}>
         ← Voltar para profissionais
-      </button>
+      </Button>
 
       <h1>{profissional.nome}</h1>
 

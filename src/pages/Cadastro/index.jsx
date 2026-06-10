@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Button from "../../components/Button";
-import Input from "../../components/Input";
+import CampoFormulario from "../../components/CampoFormulario";
 
 import {
   getProfissionais,
@@ -20,6 +20,7 @@ export const Cadastro = () => {
   const [cidade, setCidade] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function cadastrar() {
     if (!nome || !email || !area || !cidade || !senha || !confirmarSenha) {
@@ -44,10 +45,13 @@ export const Cadastro = () => {
       return;
     }
 
+    setIsLoading(true);
+
     const response = await getProfissionais();
 
     if (response.status !== 200) {
       toast.error("Erro ao carregar profissionais!");
+      setIsLoading(false);
       return;
     }
 
@@ -57,6 +61,7 @@ export const Cadastro = () => {
 
     if (emailJaCadastrado) {
       toast.error("Este e-mail já está cadastrado!");
+      setIsLoading(false);
       return;
     }
 
@@ -70,10 +75,13 @@ export const Cadastro = () => {
 
     if (cadastro.status !== 201 && cadastro.status !== 200) {
       toast.error("Erro ao realizar cadastro!");
+      setIsLoading(false);
       return;
     }
 
     toast.success("Cadastro realizado com sucesso!");
+
+    setIsLoading(false);
 
     navigate("/login");
   }
@@ -91,53 +99,55 @@ export const Cadastro = () => {
         mulheres autônomas e empreendedoras que estão mudando o jogo.
       </p>
 
-      <label>Nome completo</label>
-      <Input
-        type="text"
-        placeholder="Seu nome de protagonista"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Nome completo"
+        tipoDoCampo="text"
+        placeholderDoCampo="Seu nome de protagonista"
+        valorDoCampo={nome}
+        aoMudar={(e) => setNome(e.target.value)}
       />
 
-      <label>E-mail</label>
-      <Input
-        type="email"
-        placeholder="Digite seu e-mail, diva!"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="E-mail"
+        tipoDoCampo="email"
+        placeholderDoCampo="Digite seu e-mail, diva!"
+        valorDoCampo={email}
+        aoMudar={(e) => setEmail(e.target.value)}
       />
 
-      <label>Área de atuação</label>
-      <Input
-        type="text"
-        placeholder="Em qual área você brilha?"
-        value={area}
-        onChange={(e) => setArea(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Área de atuação"
+        tipoDoCampo="text"
+        placeholderDoCampo="Em qual área você brilha?"
+        valorDoCampo={area}
+        aoMudar={(e) => setArea(e.target.value)}
       />
 
-      <label>Cidade</label>
-      <Input
-        type="text"
-        placeholder="De onde você transforma o mercado?"
-        value={cidade}
-        onChange={(e) => setCidade(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Cidade"
+        tipoDoCampo="text"
+        placeholderDoCampo="De onde você transforma o mercado?"
+        valorDoCampo={cidade}
+        aoMudar={(e) => setCidade(e.target.value)}
       />
 
-      <label>Senha</label>
-      <Input
-        type="password"
-        placeholder="Crie uma senha digna de uma protagonista"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Senha"
+        tipoDoCampo="password"
+        placeholderDoCampo="Crie uma senha digna de uma protagonista"
+        valorDoCampo={senha}
+        aoMudar={(e) => setSenha(e.target.value)}
       />
 
-      <label>Confirmar senha</label>
-      <Input
-        type="password"
-        placeholder="Confirme sua senha com vontade!"
-        value={confirmarSenha}
-        onChange={(e) => setConfirmarSenha(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Confirmar senha"
+        tipoDoCampo="password"
+        placeholderDoCampo="Confirme sua senha com vontade!"
+        valorDoCampo={confirmarSenha}
+        aoMudar={(e) => setConfirmarSenha(e.target.value)}
       />
+
+      {isLoading && <span>Carregando...</span>}
 
       <Button onClick={cadastrar}>Começar minha jornada de sucesso</Button>
     </>

@@ -13,10 +13,7 @@ export const getProfissionais = async () => {
 
 export const cadastrarProfissional = async (data) => {
   try {
-    const resposta = await apiProfissionais.post(
-      "/profissionais",
-      data
-    );
+    const resposta = await apiProfissionais.post("/profissionais", data);
 
     return resposta;
   } catch (error) {
@@ -24,51 +21,26 @@ export const cadastrarProfissional = async (data) => {
   }
 };
 
-export const editarProfissional = async (
-  id,
-  data
-) => {
+export const editarProfissional = async (id, data) => {
   try {
     const resposta = await apiProfissionais.put(
-      `/profissionais/${id}`,
-      data
+      `/profissionais/${String(id)}`,
+      data,
     );
-
     return resposta;
   } catch (error) {
-    throw new Error(error);
+    return { status: 500 };
   }
 };
 
 export const deletarProfissional = async (id) => {
   try {
     const resposta = await apiProfissionais.delete(
-      `/profissionais/${id}`
+      `/profissionais/${String(id)}`,
     );
-
     return resposta;
   } catch (error) {
-    throw new Error(error);
-  }
-};
-
-
-// API DE FRASES DA HOME
-export const getFrases = async () => {
-  try {
-    const resposta = await apiFrases.get("/frase/obter");
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const criarFrase = async (data) => {
-  try {
-    const resposta = await apiFrases.post("/frase/criar", data);
-    return resposta;
-  } catch (error) {
-    throw new Error(error);
+    return { status: 500 };
   }
 };
 

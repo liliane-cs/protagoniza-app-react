@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Button from "../../components/Button";
-import Input from "../../components/Input";
+import CampoFormulario from "../../components/CampoFormulario";
 
 import { getProfissionais } from "../../services/protagonizaService";
 
@@ -13,6 +13,7 @@ export const Login = () => {
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function fazerLogin() {
     if (!email || !senha) {
@@ -32,10 +33,13 @@ export const Login = () => {
       return;
     }
 
+    setIsLoading(true);
+
     const response = await getProfissionais();
 
     if (response.status !== 200) {
       toast.error("Erro ao conectar com o servidor!");
+      setIsLoading(false);
       return;
     }
 
@@ -45,10 +49,13 @@ export const Login = () => {
 
     if (!usuarioEncontrado) {
       toast.error("Email ou senha incorretos!");
+      setIsLoading(false);
       return;
     }
 
-    localStorage.setItem("usuarioId", usuarioEncontrado.id);
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
+
+    setIsLoading(false);
 
     navigate("/profissionais");
   }
@@ -61,33 +68,33 @@ export const Login = () => {
 
       <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
 
-      <label>E-mail</label>
-
-      <Input
-        type="email"
-        placeholder="Digite seu e-mail, diva!"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="E-mail"
+        tipoDoCampo="email"
+        placeholderDoCampo="Digite seu e-mail, diva!"
+        valorDoCampo={email}
+        aoMudar={(e) => setEmail(e.target.value)}
       />
 
-      <label>Senha</label>
-
-      <Input
-        type="password"
-        placeholder="Sua senha de protagonista"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
+      <CampoFormulario
+        labelDoCampo="Senha"
+        tipoDoCampo="password"
+        placeholderDoCampo="Sua senha de protagonista"
+        valorDoCampo={senha}
+        aoMudar={(e) => setSenha(e.target.value)}
       />
 
       <Link to="#">Esqueci minha senha</Link>
+
+      {isLoading && <span>Carregando...</span>}
 
       <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
 
       <p>ou continue com</p>
 
-      <button>G Continuar com Google</button>
+      <Button estiloBotao="outline">G Continuar com Google</Button>
 
-      <button>in Continuar com LinkedIn</button>
+      <Button estiloBotao="outline">in Continuar com LinkedIn</Button>
 
       <p>
         Ainda não faz parte dessa rede de mulheres incríveis?{" "}
