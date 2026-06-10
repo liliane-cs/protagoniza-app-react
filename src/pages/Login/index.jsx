@@ -20,8 +20,7 @@ export const Login = () => {
       return;
     }
 
-    const emailValido =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     if (!emailValido) {
       toast.error("Digite um e-mail válido!");
@@ -29,35 +28,27 @@ export const Login = () => {
     }
 
     if (senha.length < 6) {
-      toast.error(
-        "A senha deve ter no mínimo 6 caracteres!"
-      );
+      toast.error("A senha deve ter no mínimo 6 caracteres!");
       return;
     }
 
-    const response =
-      await getProfissionais();
+    const response = await getProfissionais();
 
     if (response.status !== 200) {
-      toast.error(
-        "Erro ao conectar com o servidor!"
-      );
+      toast.error("Erro ao conectar com o servidor!");
       return;
     }
 
-    const usuarioEncontrado =
-      response.data.find(
-        (user) =>
-          user.email === email &&
-          user.senha === senha
-      );
+    const usuarioEncontrado = response.data.find(
+      (user) => user.email === email && user.senha === senha,
+    );
 
     if (!usuarioEncontrado) {
-      toast.error(
-        "Email ou senha incorretos!"
-      );
+      toast.error("Email ou senha incorretos!");
       return;
     }
+
+    localStorage.setItem("usuarioId", usuarioEncontrado.id);
 
     navigate("/profissionais");
   }
@@ -68,10 +59,7 @@ export const Login = () => {
 
       <h1>Faça seu login e protagonize!</h1>
 
-      <p>
-        Sua rede está com saudade!
-        Entre para continuar protagonizando.
-      </p>
+      <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
 
       <label>E-mail</label>
 
@@ -79,9 +67,7 @@ export const Login = () => {
         type="email"
         placeholder="Digite seu e-mail, diva!"
         value={email}
-        onChange={(e) =>
-          setEmail(e.target.value)
-        }
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <label>Senha</label>
@@ -90,40 +76,25 @@ export const Login = () => {
         type="password"
         placeholder="Sua senha de protagonista"
         value={senha}
-        onChange={(e) =>
-          setSenha(e.target.value)
-        }
+        onChange={(e) => setSenha(e.target.value)}
       />
 
-      <Link to="#">
-        Esqueci minha senha
-      </Link>
+      <Link to="#">Esqueci minha senha</Link>
 
-      <Button onClick={fazerLogin}>
-        Quero entrar e PROTAGONIZAR
-      </Button>
+      <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
 
       <p>ou continue com</p>
 
-      <button>
-        G Continuar com Google
-      </button>
+      <button>G Continuar com Google</button>
 
-      <button>
-        in Continuar com LinkedIn
-      </button>
+      <button>in Continuar com LinkedIn</button>
 
       <p>
-        Ainda não faz parte dessa rede
-        de mulheres incríveis?{" "}
-        <Link to="/cadastro">
-          Cadastre-se agora
-        </Link>
+        Ainda não faz parte dessa rede de mulheres incríveis?{" "}
+        <Link to="/cadastro">Cadastre-se agora</Link>
       </p>
 
-      <Link to="/">
-        ← Voltar para nossa casa
-      </Link>
+      <Link to="/">← Voltar para nossa casa</Link>
     </>
   );
 };
