@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 import  Card from '../../components/Card/index.jsx';
 import { getProfissionais } from '../../services/protagonizaService.jsx';
 
@@ -9,6 +10,7 @@ export default function Profissionais() {
     const [areaFiltro, setAreaFiltro] = useState('Todas');
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
+     const navigate = useNavigate();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -75,6 +77,7 @@ export default function Profissionais() {
                             titulo={profissional.nome || profissional.titulo} 
                             descricao={profissional.descricao || profissional.biografia} 
                             imagem={profissional.foto || profissional.imagem} 
+                            onClick={() => navigate(`/profissionais/${profissional.id}`)}
                         />
                     ))
                 ) : (
