@@ -15,7 +15,6 @@ export const MeuPerfil = () => {
   const navigate = useNavigate();
 
   const [id, setId] = useState(null);
-
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
@@ -41,7 +40,7 @@ export const MeuPerfil = () => {
       return;
     }
 
-    setId(usuarioLogado.id);
+    setId(String(usuarioLogado.id));
     setNome(usuarioLogado.nome || "");
     setEmail(usuarioLogado.email || "");
     setArea(usuarioLogado.area || "");
@@ -52,7 +51,6 @@ export const MeuPerfil = () => {
   }, [navigate]);
 
   async function salvar() {
-    // Validações dos campos obrigatórios
     if (!nome || !email || !area || !cidade) {
       toast.error("Preencha os campos obrigatórios, protagonista!");
       return;
@@ -61,23 +59,19 @@ export const MeuPerfil = () => {
     const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
     let senhaFinal = usuarioLogado.senha;
 
-    // Validações de senha — só se tentar mudar
     if (senhaAtual || novaSenha || confirmarNovaSenha) {
       if (senhaAtual !== usuarioLogado.senha) {
         toast.error("A senha atual está incorreta!");
         return;
       }
-
       if (novaSenha.length < 6) {
         toast.error("A nova senha deve ter pelo menos 6 caracteres!");
         return;
       }
-
       if (novaSenha !== confirmarNovaSenha) {
         toast.error("As novas senhas não coincidem!");
         return;
       }
-
       senhaFinal = novaSenha;
     }
 
@@ -128,7 +122,9 @@ export const MeuPerfil = () => {
     localStorage.removeItem("usuarioLogado");
     toast.success("Até logo, protagonista!");
     setIsLoadingDeletar(false);
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
   }
 
   return (
