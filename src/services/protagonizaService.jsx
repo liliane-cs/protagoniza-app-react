@@ -21,7 +21,7 @@ export const listarProfissionais = async (config = {}) => {
   }
 };
 
-// LISTAR PROFISSIONAIS
+// BUSCAR PROFISSIONAIS
 export const getProfissionais = async (config = {}) => {
   return await apiProfissionais.get("/profissionais", config);
 };

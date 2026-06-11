@@ -76,23 +76,21 @@ export const Cadastro = () => {
       senha,
     });
 
-    if (responseCadastro.status !== 201) {
+    console.log("Status do cadastro:", responseCadastro.status);
+
+    if (responseCadastro.status !== 200 && responseCadastro.status !== 201) {
       setErro(true);
       setIsLoading(false);
       return;
     }
 
+    setIsLoading(false);
+
     toast.success("Cadastro realizado com sucesso!");
 
     setTimeout(() => {
       navigate("/login");
-    }, 1500);
-
-    setIsLoading(false);
-  }
-
-  if (isLoading) {
-    return <Loading />;
+    }, 2000);
   }
 
   if (erro) {
@@ -102,6 +100,8 @@ export const Cadastro = () => {
   return (
     <>
       <ToastContainer />
+
+      {isLoading && <Loading />}
 
       <Link to="/login">← Já faço parte dessa rede incrível</Link>
 
