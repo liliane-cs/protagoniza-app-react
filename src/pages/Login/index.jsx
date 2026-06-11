@@ -60,11 +60,13 @@ export const Login = () => {
 
     setIsLoading(false);
 
-    navigate("/profissionais");
-  }
+    toast.success(
+      `Seja bem-vinda, ${usuarioEncontrado.nome}! Que bom ter você aqui. ✨`,
+    );
 
-  if (isLoading) {
-    return <Loading />;
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
   }
 
   if (erro) {
@@ -74,6 +76,8 @@ export const Login = () => {
   return (
     <>
       <ToastContainer />
+
+      {isLoading && <Loading />}
 
       <h1>Faça seu login e protagonize!</h1>
 

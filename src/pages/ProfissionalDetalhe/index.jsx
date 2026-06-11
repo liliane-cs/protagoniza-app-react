@@ -9,6 +9,8 @@ import Button from "../../components/Button";
 
 export const ProfissionalDetalhe = () => {
   const { id } = useParams();
+  const idTratado = Number(id);
+
   const navigate = useNavigate();
 
   const [profissional, setProfissional] = useState(null);
@@ -24,8 +26,9 @@ export const ProfissionalDetalhe = () => {
         setLoading(false);
         return;
       }
+
       const profissionalEncontrado = dados.find(
-        (prof) => String(prof.id) === String(id),
+        (prof) => prof.id === idTratado
       );
 
       if (!profissionalEncontrado) {
@@ -39,7 +42,8 @@ export const ProfissionalDetalhe = () => {
     }
 
     carregarProfissional();
-  }, [id]);
+  }, [idTratado]);
+
   if (loading) {
     return <Loading />;
   }
