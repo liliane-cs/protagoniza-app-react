@@ -2,6 +2,7 @@ import { Router } from "./routers/Router";
 import { ToastContainer } from "react-toastify";
 import { ThemeContext, ThemeProviderCustom } from "./context/ThemeContext";
 import { useContext, useEffect } from "react";
+import { FavoritosProvider } from "./context/FavoritosContext";
 
 function AppInner() {
   const { tema } = useContext(ThemeContext);
@@ -21,7 +22,9 @@ function App() {
   return (
     <>
       <ThemeProviderCustom>
-        <AppInner />
+        <FavoritosProvider>
+          <AppInner />
+        </FavoritosProvider>
       </ThemeProviderCustom>
     </>
   );
