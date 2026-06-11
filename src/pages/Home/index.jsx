@@ -58,7 +58,6 @@ export const Home = () => {
       setLoading(true);
       const nomesLivros = [
         "Mulheres que Correm com os Lobos",
-        "A Coragem de Ser Imperfeito",
         "Nasceu, e agora?",
       ];
       const resultados = await Promise.all(
