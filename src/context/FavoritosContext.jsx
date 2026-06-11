@@ -13,18 +13,32 @@ export function FavoritosProvider({ children }) {
   }, [favoritos]);
 
   function adicionarFavorito(item) {
-    const jaExiste = favoritos.some((favorito) => favorito.id === item.id);
+  const jaExiste = favoritos.some(
+    (favorito) =>
+      favorito.id === item.id &&
+      favorito.tipo === item.tipo
+  );
 
-    if (jaExiste) {
-      setFavoritos(favoritos.filter((favorito) => favorito.id !== item.id));
-    } else {
-      setFavoritos([...favoritos, item]);
-    }
+  if (jaExiste) {
+    setFavoritos(
+      favoritos.filter(
+        (favorito) =>
+          !(favorito.id === item.id &&
+            favorito.tipo === item.tipo)
+      )
+    );
+  } else {
+    setFavoritos([...favoritos, item]);
   }
+}
 
-  function estaFavoritado(id) {
-    return favoritos.some((favorito) => favorito.id === id);
-  }
+  function estaFavoritado(id, tipo) {
+  return favoritos.some(
+    (favorito) =>
+      favorito.id === id &&
+      favorito.tipo === tipo
+  );
+}
 
   return (
     <FavoritosContext.Provider

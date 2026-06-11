@@ -4,6 +4,21 @@ import { FavoritosContext } from "../../context/FavoritosContext";
 
 export default function Favoritos() {
   const { favoritos, adicionarFavorito } = useContext(FavoritosContext);
+  const profissionais = favoritos.filter(
+    (item) => item.tipo === "profissional",
+  );
+  const cursos = favoritos.filter((item) => item.tipo === "curso");
+  const oportunidades = favoritos.filter(
+    (item) => item.tipo === "oportunidade",
+  );
+
+  const estiloGrid = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 350px))",
+    gap: "20px",
+    padding: "20px",
+    justifyContent: "center",
+  };
 
   return (
     <>
@@ -12,30 +27,51 @@ export default function Favoritos() {
       </h1>
 
       {favoritos.length > 0 ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 350px))",
-            gap: "20px",
-            padding: "20px",
-            justifyContent: "center",
-          }}
-        >
-          {favoritos.map((profissional) => (
-            <Card
-              key={profissional.id}
-              titulo={profissional.nome || profissional.titulo}
-              descricao={profissional.descricao || profissional.biografia}
-              imagem={profissional.foto || profissional.imagem}
-              favoritado={true}
-              aoFavoritar={() => adicionarFavorito(profissional)}
-            />
-          ))}
-        </div>
+        <>
+          <h2>Profissionais</h2>
+          <div style={estiloGrid}>
+            {profissionais.map((item) => (
+              <Card
+                key={item.id}
+                titulo={item.nome || item.titulo}
+                descricao={item.descricao || item.biografia}
+                imagem={item.foto || item.imagem}
+                favoritado={true}
+                aoFavoritar={() => adicionarFavorito(item)}
+              />
+            ))}
+          </div>
+
+          <h2>Cursos</h2>
+          <div style={estiloGrid}>
+            {cursos.map((item) => (
+              <Card
+                key={item.id}
+                titulo={item.nome || item.titulo}
+                descricao={item.descricao || item.biografia || item.area}
+                imagem={item.foto || item.imagem}
+                favoritado={true}
+                aoFavoritar={() => adicionarFavorito(item)}
+              />
+            ))}
+          </div>
+
+          <h2>Oportunidades</h2>
+          <div style={estiloGrid}>
+            {oportunidades.map((item) => (
+              <Card
+                key={item.id}
+                titulo={item.nome || item.titulo}
+                descricao={item.descricao || item.biografia}
+                imagem={item.foto || item.imagem}
+                favoritado={true}
+                aoFavoritar={() => adicionarFavorito(item)}
+              />
+            ))}
+          </div>
+        </>
       ) : (
-        <p style={{ color: "var(--texto)", padding: "0 40px" }}>
-          Nenhum favorito adicionado.
-        </p>
+        <p>Nenhum favorito adicionado.</p>
       )}
     </>
   );

@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { apiCursos } from "../../services/api/Api.jsx";
 import Loading from "../../components/Loading/index.jsx";
 import ErrorMessage from "../../components/ErrorMessage/index.jsx";
 import Card from "../../components/Card/index.jsx";
 import {ListaCursos, Titulo, Filtro, Cabecalho} from "./style.jsx";
 import { toast } from "react-toastify";
+import { FavoritosContext } from "../../context/FavoritosContext.jsx";
 
 export default function Cursos() {
   const [cursos, setCursos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(false);
   const [areaSelecionada, setAreaSelecionada] = useState("");
-  const [favoritos, setFavoritos] = useState([]);
+  const {adicionarFavorito,estaFavoritado}=useContext (FavoritosContext);
 
   useEffect(() => {
 
@@ -39,14 +40,6 @@ export default function Cursos() {
       ? cursos.filter((curso) => curso.area === areaSelecionada)
       : cursos;
 
-  function alternarFavorito(id) {
-
-    setFavoritos((anteriores) =>
-        anteriores.includes(id)
-            ? anteriores.filter((favId) => favId !== id)
-            : [...anteriores, id]
-    );
-  }
 
   return (
       <>
@@ -70,12 +63,15 @@ export default function Cursos() {
         <ListaCursos>
           {cursosFiltrados.map((curso) => (
               <Card
-                  key={curso.id}
-                  titulo={curso.titulo}
-                  descricao={curso.area}
-                  imagem={curso.imagem}
-                  favoritado={favoritos.includes(curso.id)}
-                  aoFavoritar={() => alternarFavorito(curso.id)}
+               key={curso.id}
+               titulo={curso.titulo}
+               descricao={curso.area}
+               imagem={curso.imagem}
+               favoritado={estaFavoritado(curso.id, "curso")}
+                aoFavoritar={(e)=>{
+                  e.stopPropagation();
+                  adicionarFavorito({...curso,tipo:"curso"});
+                }}
               />
           ))}
         </ListaCursos>
