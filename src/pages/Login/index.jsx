@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as S from "./style";
 
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
@@ -74,7 +75,8 @@ export const Login = () => {
   }
 
   return (
-    <>
+    <S.Container>
+    
       <ToastContainer />
 
       {isLoading && <Loading />}
@@ -115,6 +117,7 @@ export const Login = () => {
       </p>
 
       <Link to="/">← Voltar para nossa casa</Link>
-    </>
+    
+    </S.Container>
   );
 };

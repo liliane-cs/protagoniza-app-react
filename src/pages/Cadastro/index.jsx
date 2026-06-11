@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import * as S from "./style";
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
 import Loading from "../../components/Loading";
@@ -98,7 +98,8 @@ export const Cadastro = () => {
   }
 
   return (
-    <>
+      <S.Container>
+
       <ToastContainer />
 
       {isLoading && <Loading />}
@@ -161,6 +162,7 @@ export const Cadastro = () => {
       />
 
       <Button onClick={cadastrar}>Começar minha jornada de sucesso</Button>
-    </>
+      </S.Container>
+
   );
 };
