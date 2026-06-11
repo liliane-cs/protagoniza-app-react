@@ -20,16 +20,16 @@ export const ProfissionalDetalhe = () => {
   useEffect(() => {
     async function carregarProfissional() {
       const { dados, erro, cancelado } = await listarProfissionais();
-
+      
       if (cancelado || erro) {
         setErro(true);
         setLoading(false);
         return;
       }
 
-      const profissionalEncontrado = dados.find(
-        (prof) => prof.id === idTratado
-      );
+    const profissionalEncontrado = dados.find(
+  (prof) => Number(prof.id) === idTratado
+);
 
       if (!profissionalEncontrado) {
         setErro(true);
