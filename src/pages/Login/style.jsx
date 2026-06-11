@@ -7,7 +7,7 @@ export const Container = styled.main`
   margin: 3rem auto;
   padding: 3.5rem;
 
-  background: #fffaf8;
+  background: var(--fundo-principal);
 
   border-radius: 2rem;
 
@@ -72,7 +72,7 @@ export const Container = styled.main`
   /* Google e LinkedIn */
   button:nth-of-type(2),
   button:nth-of-type(3) {
-    background: white;
+    background: var(--fundo-principal);
 
     color: var(--texto);
 

@@ -33,7 +33,9 @@ export default function Favoritos() {
           ))}
         </div>
       ) : (
-        <p>Nenhum favorito adicionado.</p>
+        <p style={{ color: "var(--texto)", padding: "0 40px" }}>
+          Nenhum favorito adicionado.
+        </p>
       )}
     </>
   );

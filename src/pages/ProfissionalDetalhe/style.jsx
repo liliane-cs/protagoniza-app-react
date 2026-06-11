@@ -57,7 +57,7 @@ export const Container = styled.main`
 
     padding: 1.5rem;
 
-    background: white;
+    background: var(--fundo-principal);
 
     border: 1px solid #eadde0;
 
