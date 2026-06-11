@@ -30,7 +30,7 @@ export const Container = styled.main`
 `;
 
 export const CardInfo = styled.div`
-  background: white;
+  background: var(--fundo-principal);
   border-radius: 20px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   padding: 2rem 2.5rem;
