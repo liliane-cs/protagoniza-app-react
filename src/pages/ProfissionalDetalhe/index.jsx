@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { getProfissionais } from "../../services/protagonizaService";
+import { listarProfissionais } from "../../services/protagonizaService";
 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -15,32 +15,31 @@ export const ProfissionalDetalhe = () => {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
- useEffect(() => {
+  useEffect(() => {
     async function carregarProfissional() {
-        const { dados, erro, cancelado } = await getProfissionais();
+      const { dados, erro, cancelado } = await listarProfissionais();
 
-        if (cancelado || erro) {
-            setErro(true);
-            setLoading(false);
-            return;
-        }
-
-        const profissionalEncontrado = dados.find(
-            (prof) => String(prof.id) === String(id)
-        );
-
-        if (!profissionalEncontrado) {
-            setErro(true);
-            setLoading(false);
-            return;
-        }
-
-        setProfissional(profissionalEncontrado);
+      if (cancelado || erro) {
+        setErro(true);
         setLoading(false);
+        return;
+      }
+      const profissionalEncontrado = dados.find(
+        (prof) => String(prof.id) === String(id),
+      );
+
+      if (!profissionalEncontrado) {
+        setErro(true);
+        setLoading(false);
+        return;
+      }
+
+      setProfissional(profissionalEncontrado);
+      setLoading(false);
     }
 
     carregarProfissional();
-}, [id]);
+  }, [id]);
   if (loading) {
     return <Loading />;
   }

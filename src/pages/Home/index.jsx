@@ -56,10 +56,20 @@ export const Home = () => {
   useEffect(() => {
     async function carregarLivro() {
       setLoading(true);
-      const livro = await getLivro("Mulheres que Correm com os Lobos");
-      if (livro) {
-        setLivros([livro]);
-        setLivroAtual(livro);
+      const nomesLivros = [
+        "Mulheres que Correm com os Lobos",
+        "A Coragem de Ser Imperfeito",
+        "Nasceu, e agora?",
+      ];
+      const resultados = await Promise.all(
+        nomesLivros.map((nome) => getLivro(nome)),
+      );
+
+      const livrosValidos = resultados.filter((livro) => livro);
+
+      if (livrosValidos.length > 0) {
+        setLivros(livrosValidos);
+        setLivroAtual(livrosValidos[0]);
       }
       setLoading(false);
     }
