@@ -72,10 +72,10 @@ Você vai precisar do [Node.js](https://nodejs.org/) instalado.
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/SEU_USUARIO/elas-em-rede.git
+git clone https://github.com/SEU_USUARIO/protagoniza.git
 
 # 2. Entre na pasta
-cd elas-em-rede
+cd protagoniza
 
 # 3. Instale as dependências
 npm install
@@ -92,18 +92,14 @@ A URL base da API fica em `src/services/api.jsx` — substitua pela URL do proje
 
 Projeto desenvolvido em grupo. Cada integrante ficou responsável por uma página:
 
-| Integrante | Página |
-|---|---|
-| *Luisa Abreu* | Home |
-| *Yasmim Verissimo* | Profissionais |
-| *Liliane Costa* | Detalhe da profissional |
-| *Nivea D Avila* | Oportunidades |
-| *Natasha Mendonça* | Cursos |
-| *Anna Júlia Leite* | Rede de apoio |
-| *Leticia Guimarães* | Favoritos |
+| Integrante | Página   + Fundação                                 |
+|---|-----------------------------------------------------|
+| *Luisa Abreu* | Home . Header · Footer · ThemeContext               |
+| *Yasmim Verissimo* | Profissionais                                       |
+| *Liliane Costa* | Detalhes (Profissionais) · Cadastro · Login · Perfil |
+| *Nivea D Avila* | Oportunidades · Detalhe de Oportunidades            |
+| *Natasha Mendonça* | Cursos · Cards · Loading · ErrorMessage             |
+| *Anna Júlia Leite* | Rede de apoio · React Router                        |
+| *Leticia Guimarães* | Favoritos                                           |
 
 ---
-
-## 📌 Status
-
-🚧 Em desenvolvimento — trabalho do módulo de React · Serratec.
