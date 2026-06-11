@@ -21,7 +21,7 @@ export const listarProfissionais = async (config = {}) => {
   }
 };
 
-// LISTAR PROFISSIONAIS
+// BUSCAR PROFISSIONAIS
 export const getProfissionais = async (config = {}) => {
   return await apiProfissionais.get("/profissionais", config);
 };
@@ -33,12 +33,25 @@ export const cadastrarProfissional = async (novoProfissional) => {
 
 // EDITAR PROFISSIONAL
 export const editarProfissional = async (id, dadosAtualizados) => {
-  return await apiProfissionais.put(`/profissionais/${id}`, dadosAtualizados);
+  try {
+    return await apiProfissionais.put(
+      `/profissionais/${id}`,
+      dadosAtualizados,
+      { headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    throw error;
+  }
 };
-
-// EXCLUIR PROFISSIONAL
+// DELETAR PROFISSIONAL
 export const deletarProfissional = async (id) => {
-  return await apiProfissionais.delete(`/profissionais/${id}`);
+  try {
+    return await apiProfissionais.delete(`/profissionais/${id}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 // API DE LIVROS DA HOME

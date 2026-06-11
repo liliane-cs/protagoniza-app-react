@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import * as S from "./style";
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
 import Loading from "../../components/Loading";
@@ -76,23 +76,21 @@ export const Cadastro = () => {
       senha,
     });
 
-    if (responseCadastro.status !== 201) {
+    console.log("Status do cadastro:", responseCadastro.status);
+
+    if (responseCadastro.status !== 200 && responseCadastro.status !== 201) {
       setErro(true);
       setIsLoading(false);
       return;
     }
 
+    setIsLoading(false);
+
     toast.success("Cadastro realizado com sucesso!");
 
     setTimeout(() => {
       navigate("/login");
-    }, 1500);
-
-    setIsLoading(false);
-  }
-
-  if (isLoading) {
-    return <Loading />;
+    }, 2000);
   }
 
   if (erro) {
@@ -100,8 +98,11 @@ export const Cadastro = () => {
   }
 
   return (
-    <>
+      <S.Container>
+
       <ToastContainer />
+
+      {isLoading && <Loading />}
 
       <Link to="/login">← Já faço parte dessa rede incrível</Link>
 
@@ -161,6 +162,7 @@ export const Cadastro = () => {
       />
 
       <Button onClick={cadastrar}>Começar minha jornada de sucesso</Button>
-    </>
+      </S.Container>
+
   );
 };

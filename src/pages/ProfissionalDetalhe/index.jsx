@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import * as S from "./style";
 import { listarProfissionais } from "../../services/protagonizaService";
+import { MdWork, MdLocationOn, MdDescription, MdEmail } from "react-icons/md";
 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -9,6 +10,8 @@ import Button from "../../components/Button";
 
 export const ProfissionalDetalhe = () => {
   const { id } = useParams();
+  const idTratado = Number(id);
+
   const navigate = useNavigate();
 
   const [profissional, setProfissional] = useState(null);
@@ -18,15 +21,16 @@ export const ProfissionalDetalhe = () => {
   useEffect(() => {
     async function carregarProfissional() {
       const { dados, erro, cancelado } = await listarProfissionais();
-
+      
       if (cancelado || erro) {
         setErro(true);
         setLoading(false);
         return;
       }
-      const profissionalEncontrado = dados.find(
-        (prof) => String(prof.id) === String(id),
-      );
+
+    const profissionalEncontrado = dados.find(
+  (prof) => Number(prof.id) === idTratado
+);
 
       if (!profissionalEncontrado) {
         setErro(true);
@@ -39,7 +43,8 @@ export const ProfissionalDetalhe = () => {
     }
 
     carregarProfissional();
-  }, [id]);
+  }, [idTratado]);
+
   if (loading) {
     return <Loading />;
   }
@@ -53,17 +58,20 @@ export const ProfissionalDetalhe = () => {
   }
 
   return (
-    <>
-      <Button onClick={() => navigate("/profissionais")}>
-        ← Voltar para profissionais
-      </Button>
+  <S.Container>
+    <Button onClick={() => navigate("/profissionais")}>
+      ← Voltar para profissionais
+    </Button>
 
+    <img src={profissional.foto} alt={profissional.nome} />
+
+    <S.CardInfo>
       <h1>{profissional.nome}</h1>
-      <p>{profissional.area}</p>
-      <p>{profissional.cidade}</p>
-      <p>{profissional.descricao}</p>
-      <p>{profissional.contato}</p>
-      <img src={profissional.foto} alt={profissional.nome} />
-    </>
-  );
+      <p><MdWork /><span>Área</span>{profissional.area}</p>
+      <p><MdLocationOn /><span>Cidade</span>{profissional.cidade}</p>
+      <p><MdDescription /><span>Descrição</span>{profissional.descricao}</p>
+      <p><MdEmail /><span>Contato</span>{profissional.contato}</p>
+    </S.CardInfo>
+  </S.Container>
+);
 };

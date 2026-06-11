@@ -18,7 +18,6 @@ export default function RedeDeApoio() {
         setLoading(true);
         const response = await getApoio();
 
-        // Evita que um HTML de erro quebre a aplicação transformando-se em cards falsos
         if (typeof response.data === "string" && response.data.includes("<!doctype html>")) {
           throw new Error("A API retornou uma página HTML em vez de dados válidos.");
         }
