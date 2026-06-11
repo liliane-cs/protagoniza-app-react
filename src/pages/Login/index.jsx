@@ -3,12 +3,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as S from "./style";
-
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-
+import plantaLogin from "../../assets/planta-login.png";
+import { FcGoogle } from "react-icons/fc";
+import { FaLinkedin } from "react-icons/fa";
 import { getProfissionais } from "../../services/protagonizaService";
 
 export const Login = () => {
@@ -76,48 +77,56 @@ export const Login = () => {
 
   return (
     <S.Container>
-    
-      <ToastContainer />
+      <S.PainelEsquerdo>
+        <img src={plantaLogin} alt="" />
+      </S.PainelEsquerdo>
 
-      {isLoading && <Loading />}
+      <S.PainelDireito>
+        <ToastContainer />
 
-      <h1>Faça seu login e protagonize!</h1>
+        {isLoading && <Loading />}
 
-      <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
+        <h1>Faça seu login e protagonize!</h1>
 
-      <CampoFormulario
-        labelDoCampo="E-mail"
-        tipoDoCampo="email"
-        placeholderDoCampo="Digite seu e-mail, diva!"
-        valorDoCampo={email}
-        aoMudar={(e) => setEmail(e.target.value)}
-      />
+        <p>Sua rede está com saudade! Entre para continuar protagonizando.</p>
 
-      <CampoFormulario
-        labelDoCampo="Senha"
-        tipoDoCampo="password"
-        placeholderDoCampo="Sua senha de protagonista"
-        valorDoCampo={senha}
-        aoMudar={(e) => setSenha(e.target.value)}
-      />
+        <CampoFormulario
+          labelDoCampo="E-mail"
+          tipoDoCampo="email"
+          placeholderDoCampo="Digite seu e-mail, diva!"
+          valorDoCampo={email}
+          aoMudar={(e) => setEmail(e.target.value)}
+        />
 
-      <Link to="#">Esqueci minha senha</Link>
+        <CampoFormulario
+          labelDoCampo="Senha"
+          tipoDoCampo="password"
+          placeholderDoCampo="Sua senha de protagonista"
+          valorDoCampo={senha}
+          aoMudar={(e) => setSenha(e.target.value)}
+        />
 
-      <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
+        <Link to="#">Esqueci minha senha</Link>
 
-      <p>ou continue com</p>
+        <Button onClick={fazerLogin}>Quero entrar e PROTAGONIZAR</Button>
 
-      <Button estiloBotao="outline">G Continuar com Google</Button>
+        <p>ou continue com</p>
 
-      <Button estiloBotao="outline">in Continuar com LinkedIn</Button>
+        <Button estiloBotao="outline">
+          <FcGoogle /> Continuar com Google
+        </Button>
 
-      <p>
-        Ainda não faz parte dessa rede de mulheres incríveis?{" "}
-        <Link to="/cadastro">Cadastre-se agora</Link>
-      </p>
+        <Button estiloBotao="outline">
+          <FaLinkedin color="#0077B5" /> Continuar com LinkedIn
+        </Button>
 
-      <Link to="/">← Voltar para nossa casa</Link>
-    
+        <p>
+          Ainda não faz parte dessa rede de mulheres incríveis?{" "}
+          <Link to="/cadastro">Cadastre-se agora</Link>
+        </p>
+
+        <Link to="/">← Voltar para nossa casa</Link>
+      </S.PainelDireito>
     </S.Container>
   );
 };
