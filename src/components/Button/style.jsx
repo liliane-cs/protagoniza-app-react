@@ -1,31 +1,34 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const BotaoEstilizado = styled.button`
-  border-radius: 8px;
-  padding: 14px;
   width: 100%;
-  font-size: 16px;
+  height: 3.5rem;
+
+  border-radius: 1rem;
+
+  border: ${({ variante }) =>
+    variante === "outline"
+      ? "1px solid var(--rosa-escuro)"
+      : "none"};
+
+  background-color: ${({ variante }) =>
+    variante === "outline"
+      ? "transparent"
+      : "var(--rosa-escuro)"};
+
+  color: ${({ variante }) =>
+    variante === "outline"
+      ? "var(--rosa-escuro)"
+      : "var(--texto-invertido)"};
+
+  font-size: 1rem;
   font-weight: 600;
+
   cursor: pointer;
 
-  ${({ estiloBotao }) =>
-    estiloBotao === "outline"
-      ? css`
-          background-color: transparent;
-          color: var(--rosa-escuro);
-          border: 1.5px solid var(--rosa-escuro);
+  transition: 0.2s;
 
-          &:hover {
-            background-color: var(--rosa-claro);
-          }
-        `
-      : css`
-          background-color: var(--rosa-escuro);
-          color: var(--texto-invertido);
-          border: none;
-
-          &:hover {
-            background-color: var(--rosa-medio);
-          }
-        `}
+  &:hover {
+    opacity: 0.9;
+  }
 `;

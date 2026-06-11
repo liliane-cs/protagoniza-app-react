@@ -1,16 +1,22 @@
-import Input from "../Input";
-import { ContainerDoCampo, LabelDoCampo } from "./style";
+import { Container, Label, Input } from "./style";
 
-export default function CampoFormulario({ labelDoCampo, tipoDoCampo, placeholderDoCampo, valorDoCampo, aoMudar }) {
+export default function CampoFormulario({
+  labelDoCampo,
+  tipoDoCampo = "text",
+  placeholderDoCampo,
+  valorDoCampo,
+  aoMudar,
+}) {
   return (
-    <ContainerDoCampo>
-      <LabelDoCampo>{labelDoCampo}</LabelDoCampo>
+    <Container>
+      <Label>{labelDoCampo}</Label>
+
       <Input
         type={tipoDoCampo}
         placeholder={placeholderDoCampo}
         value={valorDoCampo}
         onChange={aoMudar}
       />
-    </ContainerDoCampo>
+    </Container>
   );
 }

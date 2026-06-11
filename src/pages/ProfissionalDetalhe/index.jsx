@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import * as S from "./style";
 import { listarProfissionais } from "../../services/protagonizaService";
 
 import Loading from "../../components/Loading";
@@ -57,7 +57,7 @@ export const ProfissionalDetalhe = () => {
   }
 
   return (
-    <>
+    <S.Container>
       <Button onClick={() => navigate("/profissionais")}>
         ← Voltar para profissionais
       </Button>
@@ -68,6 +68,6 @@ export const ProfissionalDetalhe = () => {
       <p>{profissional.descricao}</p>
       <p>{profissional.contato}</p>
       <img src={profissional.foto} alt={profissional.nome} />
-    </>
+    </S.Container>
   );
 };

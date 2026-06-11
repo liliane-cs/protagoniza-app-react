@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import * as S from "./style";
 import Button from "../../components/Button";
 import CampoFormulario from "../../components/CampoFormulario";
 
@@ -128,7 +128,7 @@ export const MeuPerfil = () => {
   }
 
   return (
-    <>
+    <S.Container>
       <ToastContainer />
 
       <Link to="/profissionais">← Conhecer outras protagonistas incríveis</Link>
@@ -248,6 +248,6 @@ export const MeuPerfil = () => {
           </Button>
         </>
       )}
-    </>
+    </S.Container>
   );
 };
