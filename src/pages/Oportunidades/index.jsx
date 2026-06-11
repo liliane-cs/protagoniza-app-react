@@ -4,12 +4,16 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card";
 import Loading from "../../components/Loading";
+import { useContext } from "react";
+import { FavoritosContext } from "../../context/FavoritosContext"
 
 export default function Oportunidades() {
   const [oportunidades, setOportunidades] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [busca, setBusca] = useState("");
+  const{adicionarFavorito,estaFavoritado} = 
+  useContext(FavoritosContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,6 +83,12 @@ export default function Oportunidades() {
                 titulo={item.titulo}
                 descricao={item.descricao}
                 imagem={item.imagem}
+                favoritado={estaFavoritado(item.id, "oportunidade")}
+                aoFavoritar={(e) => {
+                 e.preventDefault();
+                  e.stopPropagation();
+                  adicionarFavorito({ ...item, tipo: "oportunidade" });
+               }}
               />
             </Link>
           ))

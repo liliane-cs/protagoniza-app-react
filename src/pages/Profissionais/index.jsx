@@ -95,10 +95,10 @@ export default function Profissionais() {
               titulo={profissional.nome || profissional.titulo}
               descricao={profissional.descricao || profissional.biografia}
               imagem={profissional.foto || profissional.imagem}
-              favoritado={estaFavoritado(profissional.id)}
+              favoritado={estaFavoritado(profissional.id, "profissional")}
               aoFavoritar={(e) => {
                 e.stopPropagation();
-                adicionarFavorito(profissional);
+                adicionarFavorito({ ...profissional, tipo: "profissional" });
               }}
               onClick={() => navigate(`/profissionais/${profissional.id}`)}
             />
