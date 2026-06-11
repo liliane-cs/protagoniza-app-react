@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card/index.jsx";
+import { useContext } from "react";
+import { FavoritosContext } from "../../context/FavoritosContext.jsx";
 import { listarProfissionais } from "../../services/protagonizaService.jsx";
 import Loading from "../../components/Loading/index.jsx";
 import {
@@ -18,6 +20,7 @@ export default function Profissionais() {
   const [redirecionando, setRedirecionando] = useState(false);
   const [erro, setErro] = useState(null);
   const navigate = useNavigate();
+  const { adicionarFavorito, estaFavoritado } = useContext(FavoritosContext);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -92,7 +95,12 @@ export default function Profissionais() {
               titulo={profissional.nome || profissional.titulo}
               descricao={profissional.descricao || profissional.biografia}
               imagem={profissional.foto || profissional.imagem}
-              onClick={() => handleCardClick(profissional.id)}
+              favoritado={estaFavoritado(profissional.id)}
+              aoFavoritar={(e) => {
+                e.stopPropagation();
+                adicionarFavorito(profissional);
+              }}
+              onClick={() => navigate(`/profissionais/${profissional.id}`)}
             />
           ))
         ) : (
