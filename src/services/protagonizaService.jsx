@@ -55,7 +55,6 @@ export const getLivro = async (titulo) => {
 };
 
 // API DE REDE DE APOIO
-// Perfeito! Ele busca do endpoint correto usando a rota de profissionais
 export const getApoio = async () => {
   return await apiProfissionais.get("/apoio");
 };
