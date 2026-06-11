@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { getProfissionais } from "../../services/protagonizaService";
+import { listarProfissionais } from "../../services/protagonizaService";
 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -17,25 +17,24 @@ export const ProfissionalDetalhe = () => {
 
   useEffect(() => {
     async function carregarProfissional() {
-      const response = await getProfissionais();
+      const { dados, erro, cancelado } = await listarProfissionais();
 
-      if (response.status !== 200) {
+      if (cancelado || erro) {
         setErro(true);
         setLoading(false);
         return;
       }
-
-      const profissionalEncontrada = response.data.find(
+      const profissionalEncontrado = dados.find(
         (prof) => String(prof.id) === String(id),
       );
 
-      if (!profissionalEncontrada) {
+      if (!profissionalEncontrado) {
         setErro(true);
         setLoading(false);
         return;
       }
 
-      setProfissional(profissionalEncontrada);
+      setProfissional(profissionalEncontrado);
       setLoading(false);
     }
 

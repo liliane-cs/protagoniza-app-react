@@ -1,49 +1,61 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card/index.jsx";
-import { getProfissionais } from "../../services/protagonizaService.jsx";
 import { useContext } from "react";
 import { FavoritosContext } from "../../context/FavoritosContext.jsx";
+import { listarProfissionais } from "../../services/protagonizaService.jsx";
+import Loading from "../../components/Loading/index.jsx";
+import {
+  ListaProfissionais,
+  Titulo,
+  Filtro,
+  Cabecalho,
+  MensagemVazia,
+} from "./style.jsx";
 
 export default function Profissionais() {
   const [profissionais, setProfissionais] = useState([]);
   const [areaFiltro, setAreaFiltro] = useState("Todas");
   const [loading, setLoading] = useState(true);
+  const [redirecionando, setRedirecionando] = useState(false);
   const [erro, setErro] = useState(null);
   const navigate = useNavigate();
-  const {adicionarFavorito,estaFavoritado} = useContext(FavoritosContext);
+  const { adicionarFavorito, estaFavoritado } = useContext(FavoritosContext);
 
   useEffect(() => {
     const controller = new AbortController();
 
     const puxarDados = async () => {
-      try {
-        setLoading(true);
-        setErro(null);
+      setLoading(true);
+      setErro(null);
 
-        const resposta = await getProfissionais({
-          signal: controller.signal,
-        });
+      const { dados, erro, cancelado } = await listarProfissionais({
+        signal: controller.signal,
+      });
 
-        const dados = Array.isArray(resposta.data)
-          ? resposta.data
-          : resposta.data.profissionais || [];
-        setProfissionais(dados);
-      } catch (error) {
-        if (!axios.isCancel(error)) {
-          setErro("Ocorreu um erro ao carregar as profissionais.");
-          console.error(error);
-        }
-      } finally {
-        setLoading(false);
-      }
+      if (cancelado) return;
+
+      if (erro) setErro(erro);
+      else setProfissionais(dados);
+
+      setTimeout(() => setLoading(false), 1500);
     };
 
     puxarDados();
-
     return () => controller.abort();
   }, []);
+
+  const handleCardClick = (id) => {
+    setRedirecionando(true);
+    setTimeout(() => {
+      navigate(`/profissionais/${id}`);
+    }, 1500);
+  };
+
+  const areasDisponiveis = [
+    "Todas",
+    ...new Set(profissionais.map((p) => p?.area).filter(Boolean)),
+  ];
 
   const profissionaisFiltradas = profissionais.filter((prof) => {
     if (!prof || !prof.area) return false;
@@ -51,17 +63,7 @@ export default function Profissionais() {
     return prof.area.toLowerCase() === areaFiltro.toLowerCase();
   });
 
-  const areasDisponiveis = [
-    "Todas",
-    ...new Set(profissionais.map((p) => p?.area).filter(Boolean)),
-  ];
-
-  if (loading)
-    return (
-      <div style={{ textAlign: "center", padding: "50px", fontSize: "18px" }}>
-        Carregando dados...
-      </div>
-    );
+  if (loading || redirecionando) return <Loading />;
   if (erro)
     return (
       <div style={{ color: "red", textAlign: "center", padding: "50px" }}>
@@ -70,39 +72,22 @@ export default function Profissionais() {
     );
 
   return (
-    <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      <h2 style={{ marginBottom: "20px", color: "var(--texto)" }}>
-        Filtrar por Especialidade:
-      </h2>
-
-      <div style={{ marginBottom: "30px" }}>
-        <select
+    <>
+      <Cabecalho>
+        <Titulo>Filtrar por Especialidade:</Titulo>
+        <Filtro
           value={areaFiltro}
           onChange={(e) => setAreaFiltro(e.target.value)}
-          style={{
-            padding: "10px",
-            fontSize: "16px",
-            borderRadius: "6px",
-            minWidth: "200px",
-            cursor: "pointer",
-          }}
         >
           {areasDisponiveis.map((area) => (
             <option key={area} value={area}>
               {area}
             </option>
           ))}
-        </select>
-      </div>
+        </Filtro>
+      </Cabecalho>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr ",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
+      <ListaProfissionais>
         {profissionaisFiltradas.length > 0 ? (
           profissionaisFiltradas.map((profissional) => (
             <Card
@@ -111,19 +96,19 @@ export default function Profissionais() {
               descricao={profissional.descricao || profissional.biografia}
               imagem={profissional.foto || profissional.imagem}
               favoritado={estaFavoritado(profissional.id)}
-                aoFavoritar={(e) => {e.stopPropagation();
-                  adicionarFavorito(profissional);
-                }}
-
+              aoFavoritar={(e) => {
+                e.stopPropagation();
+                adicionarFavorito(profissional);
+              }}
               onClick={() => navigate(`/profissionais/${profissional.id}`)}
             />
           ))
         ) : (
-          <p style={{ color: "#666", marginTop: "20px" }}>
+          <MensagemVazia>
             Nenhuma profissional cadastrada nesta área ainda.
-          </p>
+          </MensagemVazia>
         )}
-      </div>
-    </div>
+      </ListaProfissionais>
+    </>
   );
 }
