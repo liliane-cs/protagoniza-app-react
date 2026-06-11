@@ -13,7 +13,7 @@ import {
   Input,
   Text,
 } from "./style";
-import Banner from "../../assets/screen.png";
+import Banner from "../../assets/screen.jpeg";
 import { useEffect, useState } from "react";
 import { getLivro } from "../../services/protagonizaService";
 import { toast } from "react-toastify";
