@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as S from "./style";
 import { listarProfissionais } from "../../services/protagonizaService";
+import { MdWork, MdLocationOn, MdDescription, MdEmail } from "react-icons/md";
 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -57,17 +58,20 @@ export const ProfissionalDetalhe = () => {
   }
 
   return (
-    <S.Container>
-      <Button onClick={() => navigate("/profissionais")}>
-        ← Voltar para profissionais
-      </Button>
+  <S.Container>
+    <Button onClick={() => navigate("/profissionais")}>
+      ← Voltar para profissionais
+    </Button>
 
+    <img src={profissional.foto} alt={profissional.nome} />
+
+    <S.CardInfo>
       <h1>{profissional.nome}</h1>
-      <p>{profissional.area}</p>
-      <p>{profissional.cidade}</p>
-      <p>{profissional.descricao}</p>
-      <p>{profissional.contato}</p>
-      <img src={profissional.foto} alt={profissional.nome} />
-    </S.Container>
-  );
+      <p><MdWork /><span>Área</span>{profissional.area}</p>
+      <p><MdLocationOn /><span>Cidade</span>{profissional.cidade}</p>
+      <p><MdDescription /><span>Descrição</span>{profissional.descricao}</p>
+      <p><MdEmail /><span>Contato</span>{profissional.contato}</p>
+    </S.CardInfo>
+  </S.Container>
+);
 };
